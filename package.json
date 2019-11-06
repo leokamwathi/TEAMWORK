@@ -5,7 +5,7 @@
     "main": "server/server.js",
     "scripts": {
         "start": "nodemon server/server.js",
-        "lint": "eslint 'src/**/*.js' --fix",
+        "lint": "eslint 'server/**/*.js' --fix",
         "test": "test"
     },
     "repository": {
