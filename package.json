@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon server/server.js",
         "lint": "eslint 'server/**/*.js' --fix",
-        "test": "test"
+        "test-init": "jasmine init",
+        "test": "jasmine"
     },
     "repository": {
         "type": "git",
@@ -36,6 +37,7 @@
         "eslint-plugin-prettier": "^3.1.1",
         "eslint-plugin-react": "^7.16.0",
         "eslint-plugin-react-hooks": "^1.7.0",
+        "jasmine": "^3.5.0",
         "prettier": "^1.18.2"
     }
 }
