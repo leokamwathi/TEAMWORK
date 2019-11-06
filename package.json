@@ -1,26 +1,41 @@
 {
-  "name": "teamwork",
-  "version": "1.0.0",
-  "description": "Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.",
-  "main": "server.js",
-  "scripts": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leokamwathi/TEAMWORK.git"
-  },
-  "author": "Leo Kamwathi",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/leokamwathi/TEAMWORK/issues"
-  },
-  "homepage": "https://github.com/leokamwathi/TEAMWORK#readme",
-  "dependencies": {
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "request": "^2.88.0"
-  }
+    "name": "teamwork",
+    "version": "1.0.0",
+    "description": "Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.",
+    "main": "server/server.js",
+    "scripts": {
+        "start": "nodemon server/server.js",
+        "lint": "eslint 'src/**/*.js' --fix",
+        "test": "test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/leokamwathi/TEAMWORK.git"
+    },
+    "author": "Leo Kamwathi",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/leokamwathi/TEAMWORK/issues"
+    },
+    "homepage": "https://github.com/leokamwathi/TEAMWORK#readme",
+    "dependencies": {
+        "bcrypt": "^3.0.6",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "request": "^2.88.0"
+    },
+    "devDependencies": {
+        "eslint": "^6.6.0",
+        "eslint-config-airbnb": "^18.0.1",
+        "eslint-config-node": "^4.0.0",
+        "eslint-config-prettier": "^6.5.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-node": "^10.0.0",
+        "eslint-plugin-prettier": "^3.1.1",
+        "eslint-plugin-react": "^7.16.0",
+        "eslint-plugin-react-hooks": "^1.7.0",
+        "prettier": "^1.18.2"
+    }
 }
