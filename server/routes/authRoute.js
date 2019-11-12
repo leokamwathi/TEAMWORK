@@ -26,12 +26,11 @@ authRouter.post('/created', (req, res, next) => {
 */
 
 authRouter.post('/create',(req, res, next) => {
-    const result = `{ message : 'User account successfully created' , token : String, userId : '1' }`
-    res.status(200).json(req.body);
-    console.log(`Created user ${  req.body.email  } pass: ${  req.body.password}`);
+    const result = { message : 'User account successfully created' , token : 'tokenstring', userId : '1' };
+    res.status(200).json(result);
+    // console.log(`Created user ${  req.body.email  } pass: ${  req.body.password}`);
     next();
 });
-
 
 authRouter.post('/signin', (req, res, next) => {
     // Login user

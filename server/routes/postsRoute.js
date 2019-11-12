@@ -7,21 +7,21 @@ const postRouter = express.Router();
 postRouter.get('/', (req, res, next) => {
     // Retrive all the latest articles and gifs
     res.status(200).json(data[0].posts);
-    console.log('Successfuly retrived all articles feed');
+    // console.log('Successfuly retrived all articles feed');
     next();
 });
 
 postRouter.post('/', (req, res, next) => {
     // Create new article
     res.status(200).json(data[0].posts[req.params.id]);
-    console.log('Successfuly retrived article');
+    // console.log('Successfuly retrived article');
     next();
 });
 
 postRouter.get('/:postId', (req, res, next) => {
     // Retrive article with a given ID
     res.status(200).json(data[0].posts[req.params.postId]);
-    console.log('Successfuly retrived article');
+    // console.log('Successfuly retrived article');
     next();
 });
 

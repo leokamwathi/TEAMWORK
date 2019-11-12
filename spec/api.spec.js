@@ -58,11 +58,11 @@ request.post({
 }
 
 */
-
+/*
 describe("Testing Endpoint: POST /auth/create", () => {
     const data = {};
     beforeAll((done) => {
-        const postBody = { 'email': 'alex@email.com', 'password': 'jojo' };
+        const postBody = {'email':'alex@email.com','password':'jojo' };
         Request.post({
             url: `${apiEndpointUrl}/auth/create`,
             body: postBody,
@@ -75,20 +75,134 @@ describe("Testing Endpoint: POST /auth/create", () => {
         });
     });
 
-    /*
     it("Status 200", () => {
         expect(data.status).toBe(200);
     });
-*/
-
+ 
     it("Test Article Data.", () => {
-        const post = data.body;
-        // expect(post.length).toBeGreaterThan(0);
-        expect(Object.keys(post)).toContain('email');
+        const responseData = data.body;
+        expect(Object.keys(responseData)).toContain('message');
+        expect(Object.keys(responseData)).toContain('token');
+        expect(Object.keys(responseData)).toContain('userId');
     });
     
 });
+*/
+const testPostAPI = (endpointTest,endpoint,postData,testKeys) => {
+    describe(`Testing Endpoint: ${endpointTest}`, () => {
+        const data = {};
+        beforeAll((done) => {
+            const apiUrl = apiEndpointUrl + endpoint
+            Request.post({
+                url: apiUrl,
+                body: postData,
+                json: true
+            }, (error, response, body) => {
+                data.status = response.statusCode;
+                data.body = body;
+                // console.log(`TESTING ${endpointTest}...`, apiUrl, data.body);
+                done();
+            });
+        });
+
+        it(`${endpointTest} Status 200`, () => {
+            expect(data.status).toBe(200);
+        });
+
+        it(`${endpointTest} Data Keys Test.`, () => {
+            const responseData = data.body;
+            testKeys.forEach((key)=>{
+                expect(Object.keys(responseData)).toContain(key);
+            });
+        });
+
+    });
+}
+
+const testGetAPI = (endpointTest, endpoint, testKeys) => {
+    describe(`Testing Endpoint: ${endpointTest}`, () => {
+        const data = {};
+        beforeAll((done) => {
+            const apiUrl = apiEndpointUrl + endpoint
+            Request.get(apiUrl, (error, response, body) => {
+                data.status = response.statusCode;
+                data.body = JSON.parse(body);
+                // console.log(`TESTING ${endpointTest}...`, data.body);
+                done();
+            });
+        });
+
+        it(`${endpointTest} Status 200`, () => {
+            expect(data.status).toBe(200);
+        });
+
+        it(`${endpointTest} Data Keys Test.`, () => {
+            const responseData = data.body;
+            testKeys.forEach((key) => {
+                expect(Object.keys(responseData)).toContain(key);
+            });
+        });
+
+    });
+}
+
+
+const testGetArrayAPI = (endpointTest, endpoint, testKeys) => {
+    describe(`Testing Endpoint: ${endpointTest}`, () => {
+        const data = {};
+        beforeAll((done) => {
+            const apiUrl = apiEndpointUrl + endpoint
+            Request.get(apiUrl, (error, response, body) => {
+                data.status = response.statusCode;
+                [data.body] = JSON.parse(body);
+                // console.log(`TESTING ${endpointTest}...`, data.body);
+                done();
+            });
+        });
+
+        it(`${endpointTest} Status 200`, () => {
+            expect(data.status).toBe(200);
+        });
+
+        it(`${endpointTest} Data Keys Test.`, () => {
+            const responseData = data.body;
+            testKeys.forEach((key) => {
+                expect(Object.keys(responseData)).toContain(key);
+            });
+        });
+
+    });
+}
+
+testPostAPI(
+    "POST /auth/create", 
+    "/auth/create", 
+    {'email': 'alex@email.com', 'password': 'jojo'}, 
+    ['message', 'token', 'userId']
+);
+
+testGetArrayAPI(
+    "GET /feed",
+    "/feed",
+    ['id', 'createdOn', 'title', 'post', 'isGif', 'authorId']
+);
+
+testGetAPI(
+    "GET /articles/1",
+    "/articles/1",
+    ['id', 'createdOn', 'title', 'post', 'isGif', 'authorId']
+);
+
+
 /*
+
+post)).toContain('id');
+        expect(Object.keys(post)).toContain('createdOn');
+        expect(Object.keys(post)).toContain('title');
+        expect(Object.keys(post)).toContain('post');
+        expect(Object.keys(post)).toContain('isGif');
+        expect(Object.keys(post)).toContain('authorId');
+
 describe("Testing Endpoint: GET /feed", () => {
     const data = {};
     beforeAll((done) => {
