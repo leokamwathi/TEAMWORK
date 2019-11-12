@@ -1,17 +1,17 @@
 const Request = require("request");
 const server = require('../server/server');
 
-let serverInstance;
-
+/*
 beforeEach((done) => {
-    serverInstance = server.run(done);
+    server.run(done);
 });
 
 afterEach((done) => {
-    serverInstance.close(done);
+    server.close(done);
 });
+*/
 
-const apiEndpointUrl = 'http://localhost:3000/api/v1/';
+const apiEndpointUrl = 'http://localhost:3000/api/v1';
 
 /*
 -[] Test for Endpoint : POST /auth/create - user(Create user account)
@@ -20,7 +20,7 @@ const apiEndpointUrl = 'http://localhost:3000/api/v1/';
 -[x] Test for Endpoint : GET /feed (Get all articles or gifs, showing the most recently posted articles and gifs first.)
 
 -[] Test for Endpoint : POST /articles(Create an article)
--[] Test for Endpoint : GET /articles/<:articleId> (Employees can view a specific article.)
+-[x] Test for Endpoint : GET /articles/<:articleId> (Employees can view a specific article.)
 -[] Test for Endpoint : PATCH /articles/<:articleId > (Edit an article with given ID)
 -[] Test for Endpoint : DELETE /articles/<:articleId > (Delete article with given ID)
 -[] Test for Endpoint : POST /articles/<:articleId>/comment (Employees can comment on article with given ID)
@@ -34,26 +34,120 @@ const apiEndpointUrl = 'http://localhost:3000/api/v1/';
 -[] Test for Endpoint : DELETE /gifs/<:gifId>/comment/<:commentId> (Employees can comment on article with given ID)
 */
 
-
-describe("GET /", () => {
-    const data = {};
-    beforeAll((done) => {
-        Request.get(`${apiEndpointUrl}feed/`, (error, response, body) => {
-            console.log(data.body);
-            data.status = response.statusCode;
-            data.body = JSON.parse(body);   
-            done();
-        });
-    });
-    it("Status 200", () => {
-        expect(data.status).toBe(200);
-    });
-    it("Body Data Test", () => {
-        expect(data.body).toContain("id")
-    });
+/*
+var jsonDataObj = { 'mes': 'hey dude', 'yo': ['im here', 'and here'] };
+request.post({
+    url: `${apiEndpointUrl}/auth/create`,
+    body: postBody,
+    json: true
+}, function (error, response, body) {
+    console.log(body);
 });
 
 
+{
+“firstName” : String ,
+“lastName” : String ,
+“email” : String ,
+“password” : String ,
+“gender” : String ,
+“jobRole” : String ,
+“department” : String ,
+“address” : String ,
+...
+}
+
+*/
+
+describe("Testing Endpoint: POST /auth/create", () => {
+    const data = {};
+    beforeAll((done) => {
+        const postBody = { 'email': 'alex@email.com', 'password': 'jojo' };
+        Request.post({
+            url: `${apiEndpointUrl}/auth/create`,
+            body: postBody,
+            json: true
+        }, (error, response, body) => {
+           // data.status = response.statusCode;
+                data.body = body; 
+                console.log("TESTING auth/create...", data.body);
+            done();
+        });
+    });
+
+    /*
+    it("Status 200", () => {
+        expect(data.status).toBe(200);
+    });
+*/
+
+    it("Test Article Data.", () => {
+        const post = data.body;
+        // expect(post.length).toBeGreaterThan(0);
+        expect(Object.keys(post)).toContain('email');
+    });
+    
+});
+/*
+describe("Testing Endpoint: GET /feed", () => {
+    const data = {};
+    beforeAll((done) => {
+        Request.get(`${apiEndpointUrl}/feed/`, (error, response, body) => {
+            
+            data.status = response.statusCode;
+            data.body = JSON.parse(body); 
+            console.log("TESTING FEED...",data.body[0]);  
+            done();
+        });
+    });
+
+    it("Status 200", () => {
+        expect(data.status).toBe(200);
+    });
+    
+    it("Test if Feed has multiple articles/gifs.", () => {
+        expect(data.body.length).toBeGreaterThan(0);
+    });
+
+    it("Test Feed Data.", () => {
+        const post = data.body[0];
+        expect(Object.keys(post)).toContain('id');
+        expect(Object.keys(post)).toContain('createdOn');
+        expect(Object.keys(post)).toContain('title');
+        expect(Object.keys(post)).toContain('post');
+        expect(Object.keys(post)).toContain('isGif');
+        expect(Object.keys(post)).toContain('authorId');
+    });
+});
+
+describe("Testing Endpoint: GET /articles/1", () => {
+    const data = {};
+    beforeAll((done) => {
+        // http://localhost:3000/api/v1/articles/1
+        Request.get(`${apiEndpointUrl}/articles/1`, (error, response, body) => {
+
+            data.status = response.statusCode;
+            data.body = JSON.parse(body);
+            console.log("TESTING articles/1...",data.body);  
+            done();
+        });
+    });
+
+    it("Status 200", () => {
+        expect(data.status).toBe(200);
+    });
+
+    it("Test Article Data.", () => {
+        const post = data.body;
+        expect(Object.keys(post)).toContain('id');
+        expect(Object.keys(post)).toContain('createdOn');
+        expect(Object.keys(post)).toContain('title');
+        expect(Object.keys(post)).toContain('post');
+        expect(Object.keys(post)).toContain('isGif');
+        expect(Object.keys(post)).toContain('authorId');
+    });
+});
+*/
 /*
 const server = require('../server');
 

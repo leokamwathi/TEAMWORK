@@ -1,5 +1,5 @@
 // Handels Articles and gifs.
-
+ 
 const posts = [
     {'posts':[
         {

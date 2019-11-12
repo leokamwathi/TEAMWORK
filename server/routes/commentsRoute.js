@@ -1,7 +1,7 @@
 const express = require('express');
 const comments = require('../model/comments');
 
-const commentsRouter = express.Router({ mergeParams: true });
+const commentsRouter = express.Router({mergeParams: true});
 
 commentsRouter.get('/', (req, res, next) => {
     // Retrive all the latest articles and gifs
