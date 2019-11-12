@@ -43,3 +43,10 @@ server.on('listening', () => {
 });
 
 server.listen(port);
+
+
+server.on('close', () => {
+    console.log('closed');
+});
+
+module.exports = server;
