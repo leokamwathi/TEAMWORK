@@ -13,7 +13,7 @@ GreenKepper
 
 # API ENDPOINTS
 <table>
-<tr><th>URI ENDPOINT</th><th>DESCRIPTION</th><th>REQUIRES AUTORIZATION</th></tr>
+<tr><th>URI ENDPOINT</th><th>DESCRIPTION</th><th>AUTHORIZATION</th></tr>
 
 <tr><td>POST /api/v1/auth/create</td><td>Creates a User</td><td>YES</td></tr>
 
