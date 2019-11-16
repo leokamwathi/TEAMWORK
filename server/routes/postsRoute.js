@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 const postRouter = express.Router();
 
 
-postRouter.get('/' ,auth,(req, res, next) => {
+postRouter.get('/',(req, res, next) => {
     // Retrive all the latest articles and gifs
     const results = data[0].posts;
     res.status(200).json(uFunc.prepareResult(results,200));
