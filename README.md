@@ -19,7 +19,7 @@ Teamwork is an internal social network for employees of an organization. The goa
 
 <tr><td>PATCH /api/v1/auth/user/<:userId></td><td>Edits a given User information</td><td>YES</td></tr>
 
-<tr><td>PATCH /api/v1/auth/user/<:userId>/feed</td><td>Gets all articles and gifs posted by a given User</td><td>YES</td></tr>
+<tr><td>PATCH /api/v1/auth/user/<:userId>/feed</td><td>Gets a feed of all articles and gifs posted by a given User</td><td>YES</td></tr>
 
 <tr><td>GET /api/v1/feed</td><td>Gets articles or gifs sorted by most recent</td><td>NO</td></tr>
 
