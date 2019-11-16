@@ -49,4 +49,8 @@ server.on('close', () => {
 
 server.listen(port);
 
+/**
+ *  HOSTED ON HEROKU
+ */
+
 module.exports = server;
