@@ -74,7 +74,6 @@ const getJWSToken = (endpoint, postData,) =>
 }
 
 
-
 const setupAuthUser = (userType='employee') =>{
     if (userType === 'employee'){
         userData.userId = 2;
@@ -108,59 +107,13 @@ const createAuthRequest = (endpointUrl, postBody = {}, userType='employee') => {
         body,
         json: true,
     }
-    // console.log("AUTHREQUEST",authRequest);
     return authRequest
 }
-
-/*
-getJWSToken(
-    "/auth/signin",
-    {
-        'email': 'gwen.stacy@teamwork.com',
-        'password': 'spiderman'
-    }
-);
-*/
-
-/*
--[] Add AUTHENTICATION paths
--[x] Test for Endpoint : POST /auth/create - user(Create user account)
--[x] Test for Endpoint : POST /auth/signin(Login a user)
-
--[x] Test for Endpoint : GET /feed (Get all articles or gifs, showing the most recently posted articles and gifs first.)
-
--[x] Test for Endpoint : POST /articles(Create an article)
--[x] Test for Endpoint : GET /articles/<:articleId> (Employees can view a specific article.)
--[x] Test for Endpoint : PATCH /articles/<:articleId > (Edit an article with given ID)
--[x] Test for Endpoint : DELETE /articles/<:articleId > (Delete article with given ID)
--[x] Test for Endpoint : POST /articles/<:articleId>/comment (Employees can comment on article with given ID)
--[x] Test for Endpoint : DELETE /articles/<:articleId>/comment/<:commentId> (Employees can comment on article with given ID)
-
--[x] Test for Endpoint : POST / gifs(Create an article)
--[x] Test for Endpoint : GET /gifs/<:gifId> (Employees can view a specific article.)
--[x] Test for Endpoint : PATCH /gifs/<:gifId > (Edit an article with given ID)
--[x] Test for Endpoint : DELETE /gifs/<:gifId > (Delete article with given ID)
--[x] Test for Endpoint : POST /gifs/<:gifId>/comment (Employees can comment on article with given ID)
--[x] Test for Endpoint : DELETE /gifs/<:gifId>/comment/<:commentId> (Employees can comment on article with given ID)
-*/
-
 
 const testStatus = (endpointTest, statusCode, data) => {
     it(`${endpointTest} Status ${statusCode}`, () => {
         expect(data.status).toBe(statusCode);
         expect(data.body.status).toBe(statusCodeStatus(statusCode));
-
-        /*
-        if (statusCode == 201) {
-            expect(data.body.status).toBe("success");
-        }
-        if (statusCode == 203) {
-            expect(data.body.status).toBe("success");
-        }
-        if (statusCode == 401) {
-            expect(data.body.status).toBe("error");
-        }
-        */
     });
 }
 
@@ -282,7 +235,6 @@ const testPatchAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 2
         
             it(`${endpointTest} Status ${statusCode}`, () => {
                 expect(data.status).toBe(statusCode);
-                // expect(data.body.status).toBe(statusCodeStatus(statusCode));
             });
 
             it(`${endpointTest} Data Keys Test.`, () => {
@@ -303,14 +255,12 @@ const testDeleteAPI = (endpointTest, endpoint, testKeys, statusCode = 203, userT
             Request.delete(createAuthRequest(apiUrl, {}, userType), (error, response, body) => {
                 data.status = response.statusCode;
                 data.body = body;
-                // console.log(`TESTING ${endpointTest}...`, data.body);
                 done();
             });
         });
 
         it(`${endpointTest} Status ${statusCode}`, () => {
             expect(data.status).toBe(statusCode);
-            // expect(data.body.status).toBe(statusCodeStatus(statusCode));
         });
 
         it(`${endpointTest} Data Keys Test.`, () => {
