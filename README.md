@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/leokamwathi/TEAMWORK.svg?branch=develop)](https://travis-ci.org/leokamwathi/TEAMWORK)
+[![Build Status](https://travis-ci.org/leokamwathi/TEAMWORK.svg?branch=develop)](https://travis-ci.org/leokamwathi/TEAMWORK) [![Greenkeeper badge](https://badges.greenkeeper.io/leokamwathi/TEAMWORK.svg)](https://greenkeeper.io/)
 
 # TEAMWORK
 
