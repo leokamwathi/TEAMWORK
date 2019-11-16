@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/leokamwath/Teamwork.svg?branch=develop)](https://travis-ci.com/leokamwath/Teamwork)
+[![Build Status](https://travis-ci.org/leokamwathi/TEAMWORK.svg?branch=develop)](https://travis-ci.org/leokamwathi/TEAMWORK)
 
 # TEAMWORK
 
