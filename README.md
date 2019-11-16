@@ -2,16 +2,13 @@
 
 Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.
 
-
 # BADGES
 
-Travis CI
-[![Build Status](https://travis-ci.org/leokamwathi/TEAMWORK.svg?branch=develop)](https://travis-ci.org/leokamwathi/TEAMWORK) 
-GreenKepper
+[![Build Status](https://travis-ci.org/leokamwathi/TEAMWORK.svg?branch=develop)](https://travis-ci.org/leokamwathi/TEAMWORK)
 [![Greenkeeper badge](https://badges.greenkeeper.io/leokamwathi/TEAMWORK.svg)](https://greenkeeper.io/)
 
-
 # API ENDPOINTS
+
 <table>
 <tr><th>URI ENDPOINT</th><th>DESCRIPTION</th><th>AUTHORIZATION</th></tr>
 
@@ -68,6 +65,7 @@ GreenKepper
 </table>
 
 # INSTALLATION NOTES
+
 Git Clone this repo
 npm install
 npm test
