@@ -4,7 +4,8 @@
   "description": "Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
     "lint": "eslint 'server/**/*.js' --fix",
     "test-init": "jasmine init",
     "test": "jasmine"
@@ -38,6 +39,7 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "jasmine": "^3.5.0",
+    "nodemon": "^1.19.4",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0"
   }
