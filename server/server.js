@@ -42,4 +42,11 @@ server.on('listening', () => {
     console.log(`Listening on ${bind}`);
 });
 
+
+server.on('close', () => {
+    console.log('closed');
+});
+
 server.listen(port);
+
+module.exports = server;

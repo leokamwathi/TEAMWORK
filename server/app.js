@@ -1,7 +1,7 @@
 
 const express = require('express');
 const bodyParser = require("body-parser");
-const apiRoutes = require('./routes/api');
+const apiRoutes = require('./routes/apiRoute');
 
 
 
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 // app.use(bodyParser.json());
 
 app.get("/", (request, response) => {
-    response.status(200).send("Welcome to Teamwork");
+    response.status(200).send("Welcome to Teamwork frontend");
 });
 
 app.use('/api/', apiRoutes);
