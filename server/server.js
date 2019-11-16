@@ -50,7 +50,8 @@ server.on('close', () => {
 server.listen(port);
 
 /**
- *  HOSTED ON HEROKU
+ *  HOSTED ON HEROKU 
+ *  Fixed issues
  */
 
 module.exports = server;
