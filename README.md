@@ -6,6 +6,7 @@ Teamwork is an internal social network for employees of an organization. The goa
 
 [![Build Status](https://travis-ci.org/leokamwathi/TEAMWORK.svg?branch=develop)](https://travis-ci.org/leokamwathi/TEAMWORK)
 [![Greenkeeper badge](https://badges.greenkeeper.io/leokamwathi/TEAMWORK.svg)](https://greenkeeper.io/)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9727ada6847d143c70de/maintainability)](https://codeclimate.com/github/leokamwathi/TEAMWORK/maintainability)
 
 # API ENDPOINTS
 
