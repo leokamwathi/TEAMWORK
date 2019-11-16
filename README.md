@@ -43,7 +43,7 @@ GreenKepper
 
 <tr><td>DELETE /api/v1/articles/<:articles>/comments<:commentId></td><td>Deletes a given comment on a given article</td><td>YES</td></tr>
 
-<tr><td>PATCH /api/v1/articles/<:articles>/comments<:commentIf>/flag</td><td>Flags a given comment on a given article</td><td>YES</td></tr>
+<tr><td>PATCH /api/v1/articles/<:articles>/comments<:commentId>/flag</td><td>Flags a given comment on a given article</td><td>YES</td></tr>
   
 <tr><td>GET /api/v1/gifs/<:articleId></td><td>Gets a given gif</td><td>NO</td></tr>
 
@@ -63,7 +63,7 @@ GreenKepper
 
 <tr><td>DELETE /api/v1/gifs/<:articles>/comments<:commentId></td><td>Deletes a given comment on a given gif</td><td>YES</td></tr>
 
-<tr><td>PATCH /api/v1/gifs/<:articles>/comments<:commentIf>/flag</td><td>Flags a given comment on a given gif</td><td>YES</td></tr>
+<tr><td>PATCH /api/v1/gifs/<:articles>/comments<:commentId>/flag</td><td>Flags a given comment on a given gif</td><td>YES</td></tr>
   
 </table>
 
