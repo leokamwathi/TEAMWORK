@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+    - '10.16.3'
+script:
+    - npm run lint
+    - npm run test
+before_script:
+    - npm install
+after_success:
+    - npm run test:coverage
+    - npm run push:coveralls

@@ -2,9 +2,15 @@
   "name": "teamwork",
   "version": "1.0.0",
   "description": "Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "test"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "lint": "./node_modules/.bin/eslint server/**/*.js --fix",
+    "test-init": "jasmine init",
+    "test": "nyc jasmine",
+    "test:coverage": "istanbul cover ./node_modules/jasmine/bin/jasmine.js && istanbul coverage",
+    "push:coveralls":"nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -15,5 +21,35 @@
   "bugs": {
     "url": "https://github.com/leokamwathi/TEAMWORK/issues"
   },
-  "homepage": "https://github.com/leokamwathi/TEAMWORK#readme"
+  "homepage": "https://github.com/leokamwathi/TEAMWORK#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.7",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^3.5.0",
+    "jasmine-console-reporter": "^3.1.0",
+    "jasmine-node": "^3.0.0",
+    "jasmine-supertest": "^1.0.0",
+    "nodemon": "^1.19.4",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "prettier-eslint": "^9.0.0",
+    "supertest": "^4.0.2"
+  }
 }

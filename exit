@@ -1,0 +1,239 @@
+[33mcommit 9d7943d5c84572d1ca2640d090bff58acd060af9[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Merge: 515bb74 9230ad7
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sun Nov 17 16:24:42 2019 +0300
+
+    Merge pull request #11 from leokamwathi/greenkeeper/eslint-config-prettier-6.6.0
+    
+    Greenkeeper/eslint config prettier 6.6.0
+
+[33mcommit 515bb74e6585ddf1a0827183b382f6e56f76c879[m
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sun Nov 17 16:21:04 2019 +0300
+
+    Added coveralls Badge
+
+[33mcommit 9230ad790421b11e36356d0600e0ed0d4f4c454b[m
+Author: greenkeeper[bot] <23040076+greenkeeper[bot]@users.noreply.github.com>
+Date:   Sun Nov 17 01:03:59 2019 +0000
+
+    chore(package): update lockfile package-lock.json
+
+[33mcommit 9f94411b40e4923c35f8f225595342da8d11f6b0[m
+Author: greenkeeper[bot] <23040076+greenkeeper[bot]@users.noreply.github.com>
+Date:   Sun Nov 17 01:03:55 2019 +0000
+
+    chore(package): update eslint-config-prettier to version 6.6.0
+
+[33mcommit dae4fcbdb1ab6280dd26d6723657aa7bcc3f1b25[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 22:28:56 2019 +0300
+
+    Editied PostRoute.js - remove auth for /feed path.
+
+[33mcommit 9cc43799f9bebee771902a34f5a018191d30e2e3[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 22:24:33 2019 +0300
+
+    Edited package.json Start Script
+
+[33mcommit 156f5abd0e442ed0fbd828c824606a18bb3dc8e1[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 22:10:50 2019 +0300
+
+    Fix #9
+
+[33mcommit e4680280b6cd154eb1d5294b847e6e36415c6525[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 22:09:36 2019 +0300
+
+    Deployed on Heroku
+
+[33mcommit 5b217615e2e103617f31bfcec510c6b6b80e2dc8[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 21:44:30 2019 +0300
+
+    Fix #8
+
+[33mcommit b52a0597c7b1015a1fac8e9e6571434daabddf10[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 21:43:04 2019 +0300
+
+    Added Code Climate badge to Readme.MD.
+
+[33mcommit 7012b7d368f7abda67c75861c669d1dd916d30d4[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 21:38:43 2019 +0300
+
+    Finished Implimenting GreenKeeper
+
+[33mcommit 3014b61e3d310bd7126323896b36567dc95346e9[m
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sat Nov 16 21:15:30 2019 +0300
+
+    Fixed typos on ReadME.MD
+
+[33mcommit 239e29f0169da87615e2cc08e791bbc8165e0136[m
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sat Nov 16 21:13:48 2019 +0300
+
+    Update ReadME File API EndPoints
+
+[33mcommit 701c73be0552a9510d35a24ca8a2ddc368a2d25d[m
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sat Nov 16 21:01:27 2019 +0300
+
+    Fix #5
+
+[33mcommit 80875cb965a177d550a6c4d880ea36f2f0b603b7[m
+Merge: 3fcbb2d 5600e52
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sat Nov 16 20:26:39 2019 +0300
+
+    Merge pull request #7 from leokamwathi/greenkeeper/initial
+    
+    Greenkeeper/initial
+
+[33mcommit 5600e52e4eb2ccd81b0de2bc2c21efb717d3dd0b[m
+Author: greenkeeper[bot] <23040076+greenkeeper[bot]@users.noreply.github.com>
+Date:   Sat Nov 16 17:20:31 2019 +0000
+
+    chore(package): update lockfile package-lock.json
+
+[33mcommit 7a95852948d81b9be9b15baca1365ca5d563a5ad[m
+Author: greenkeeper[bot] <23040076+greenkeeper[bot]@users.noreply.github.com>
+Date:   Sat Nov 16 17:20:27 2019 +0000
+
+    docs(readme): add Greenkeeper badge
+
+[33mcommit 9f936dd58c79b9c4d0de571e70f4242783663d29[m
+Author: greenkeeper[bot] <23040076+greenkeeper[bot]@users.noreply.github.com>
+Date:   Sat Nov 16 17:20:23 2019 +0000
+
+    chore(package): update dependencies
+
+[33mcommit 3fcbb2dd670bc25f31e31de76d3a2ebb570905d0[m
+Merge: 16f0abb 58ae62a
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sat Nov 16 20:06:06 2019 +0300
+
+    Merge pull request #6 from leokamwathi/Travis-CI-Badge-Test
+    
+    Update Readme.MD Travis badge
+
+[33mcommit 58ae62ad97c662772883fc35d34b84fa3017e83b[m[33m ([m[1;31morigin/Travis-CI-Badge-Test[m[33m)[m
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Sat Nov 16 20:05:40 2019 +0300
+
+    Update Readme.MD Travis badge
+
+[33mcommit 16f0abb57d9b5445ef1ad663aaa89075510ed857[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 20:01:17 2019 +0300
+
+    Adding Travis Badge to ReadMe.MD file
+
+[33mcommit a937fc2c7e895be7fd55865abb35b4eade46289c[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:48:06 2019 +0300
+
+    Fix #4
+
+[33mcommit 945c3b9e447f4c5ccda65b6038a0474cf2a1b743[m
+Merge: a6ba64b 3c562be
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:47:24 2019 +0300
+
+    Merge branch 'feature/Impliment_Travis_CI' into develop
+
+[33mcommit 3c562be925ea7c153cd4e9b12507eb47afc9b5ce[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:45:01 2019 +0300
+
+    Updating travis yaml file - added npm install
+
+[33mcommit 720f896c892a4f8dfafbaadaed6343e69f986699[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:42:39 2019 +0300
+
+    Testing travis ci
+
+[33mcommit a6ba64b31c14df90ffe8794ed2cb891665626ef0[m
+Merge: 0d2dfcb c03627f
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:26:28 2019 +0300
+
+    Merge branch 'feature/API_Endpoint_Tests_with_Jasmine' into develop
+
+[33mcommit c03627fac94296445e739acd0e2c9f1123193ec8[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:24:25 2019 +0300
+
+    Fix #3
+
+[33mcommit 04bf64d7451bd38e275c91e6395183c3f1a5f616[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Sat Nov 16 19:21:24 2019 +0300
+
+    Worked on JWT Tests
+
+[33mcommit 9c212aeb7f3466150ad937516d447cc8ebfb6cb9[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Tue Nov 12 16:53:34 2019 +0300
+
+    Refactoring api.spec.js
+
+[33mcommit d188e91c55c06433253908d2e905c1e6359e3b95[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Tue Nov 12 15:33:09 2019 +0300
+
+    More Jasmine Tests
+
+[33mcommit 09076138c1fe49ca569953169b51f97119cf31a6[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Tue Nov 12 12:15:28 2019 +0300
+
+    Working on jasmine tests
+
+[33mcommit dbc1211e12e239cbab8c5843c151a17624b22b6c[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Thu Nov 7 02:56:20 2019 +0300
+
+    Finished GET/Feed Endpoint Test
+
+[33mcommit 0d2dfcba65ed528a34559d94ddf95a4a7d774775[m
+Merge: 7f76d62 5b46c13
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Thu Nov 7 01:00:34 2019 +0300
+
+    Merge branch 'feature/Eslint_Airbnb_Style' into develop
+
+[33mcommit 5b46c13f652fe273e4ccce13ed8b632bc8aea891[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Thu Nov 7 00:59:28 2019 +0300
+
+    Fix #2
+
+[33mcommit 7bd3cb904227bec250b01693bcaaba0a8b0366e4[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Wed Nov 6 22:23:29 2019 +0300
+
+    Implimented Eslint Airbnb rules
+
+[33mcommit 7f76d627934cfd9514de1a3f3dcb6faf0e066398[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Wed Nov 6 21:48:14 2019 +0300
+
+    Install express, bcrypt, body-parser,jsonwebtoken,request modules
+
+[33mcommit fd75bfef1995c6e0a438626f3b833e57bb39949c[m
+Author: Leo Kamwathi <Leo.Kamwathi@gmail.com>
+Date:   Wed Nov 6 21:26:14 2019 +0300
+
+    Development Branch setup
+
+[33mcommit c49340f130c3d42ce7eceab218aff102e729d304[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Leo Kamwathi <leo.kamwathi@gmail.com>
+Date:   Fri Nov 1 13:37:14 2019 +0300
+
+    Initial commit
