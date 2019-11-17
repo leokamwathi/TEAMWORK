@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
             const token = req.headers.authorization.split(' ')[1];
             const decodedToken = jwt.verify(token, 'RANDOM_TEAMWORK_SECRET');
             const { userId } = decodedToken;
-            console.log("CHECK ADMIN USER ", userId);
+            // console.log("CHECK ADMIN USER ", userId);
            // console.log("USER ID", userId, req.headers.authorization.split(' ')[2]);
             if (userId != req.headers.authorization.split(' ')[2] || (users[0].users[req.headers.authorization.split(' ')[2]].isAdmin != 'true')) {
                 // console.log("INVALID USER ID");
