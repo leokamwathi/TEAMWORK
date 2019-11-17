@@ -9,7 +9,7 @@
     "lint": "./node_modules/.bin/eslint server/**/*.js --fix",
     "test-init": "jasmine init",
     "test": "jasmine",
-    "test:coveralls": "istanbul cover ./node_modules/jasmine/bin/jasmine.js && istanbul check-coverage",
+    "test:coveralls": "istanbul cover ./node_modules/jasmine/bin/jasmine.js && istanbul check-coverage"
   },
   "repository": {
     "type": "git",
