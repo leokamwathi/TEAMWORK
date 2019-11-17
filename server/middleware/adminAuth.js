@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const users = require('../model/users');
 const uFunc = require('../middleware/utilityFunc');
+
 module.exports = (req, res, next) => {
     try {
         if (req.headers.authorization) {

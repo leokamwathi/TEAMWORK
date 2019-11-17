@@ -58,31 +58,34 @@ switch (code) {
  *  Get User Token
  */
 
-const getJWSToken = (endpoint, postData,) => 
+const getJWSToken = (userId) => 
 {
     const token = jwt.sign(
-        { userId: postData.userId },
+        { userId },
         'RANDOM_TEAMWORK_SECRET',
         { expiresIn: '24h' });
-
-        userData.userId = postData.userId;
+        userData.userId = userId;
         userData.token = token;
-    if (postData.userId != 1){
-        console.log("USERDATA",userData) ;
-    }
-            // return userData;
 }
 
 
 const setupAuthUser = (userType='employee') =>{
+    userData.userId = null;
+    userData.token = null;
     if (userType === 'employee'){
-        userData.userId = 2;
-        userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTU3MzkxNzcwOCwiZXhwIjoxNTc0MDA0MTA4fQ.F8r6EhShY4Ai30GpQ4Xtg_Kqsf0i-PWkYDow9I5PY50';
+        getJWSToken(2)
+        if(!userData.token){
+            userData.userId = 2;
+            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTU3MzkxNzcwOCwiZXhwIjoxNTc0MDA0MTA4fQ.F8r6EhShY4Ai30GpQ4Xtg_Kqsf0i-PWkYDow9I5PY50';
+        }
     }
 
     if (userType === 'admin') {
-        userData.userId = 0;
-        userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
+        getJWSToken(0)
+        if (!userData.token) {
+            userData.userId = 0;
+            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
+        }
     }
 }
 
