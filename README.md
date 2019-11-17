@@ -1,5 +1,6 @@
 # TEAMWORK
 
+Build 0.5 Alpha Release
 Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.
 
 # BADGES
@@ -9,9 +10,7 @@ Teamwork is an internal social network for employees of an organization. The goa
 [![Maintainability](https://api.codeclimate.com/v1/badges/9727ada6847d143c70de/maintainability)](https://codeclimate.com/github/leokamwathi/TEAMWORK/maintainability)
 [![Coverage Status](https://coveralls.io/repos/github/leokamwathi/TEAMWORK/badge.svg?branch=develop)](https://coveralls.io/github/leokamwathi/TEAMWORK?branch=develop)
 
-
 # API ENDPOINTS
-
 
 <table>
 <tr><th>URI ENDPOINT</th><th>DESCRIPTION</th><th>AUTHORIZATION</th></tr>
