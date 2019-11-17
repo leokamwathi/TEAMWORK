@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
             const decodedToken = jwt.verify(token, 'RANDOM_TEAMWORK_SECRET');
             const { userId } = decodedToken;
             // console.log("CHECK ADMIN USER ", userId);
-           // console.log("USER ID", userId, req.headers.authorization.split(' ')[2]);
+            // console.log("USER ID", userId, req.headers.authorization.split(' ')[2]);
             if (userId != req.headers.authorization.split(' ')[2] || (users[0].users[req.headers.authorization.split(' ')[2]].isAdmin != 'true')) {
                 // console.log("INVALID USER ID");
                 return res.status(401).json(uFunc.prepareResult({ error: new Error('Only admin can create users.') },401));
