@@ -12,6 +12,7 @@ Teamwork is an internal social network for employees of an organization. The goa
 
 # API ENDPOINTS
 
+
 <table>
 <tr><th>URI ENDPOINT</th><th>DESCRIPTION</th><th>AUTHORIZATION</th></tr>
 
