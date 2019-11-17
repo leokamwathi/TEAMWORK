@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 node_modules
+.vscode
 =======
 # Logs
 logs
@@ -19,6 +20,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+.nyc_output
 .coveralls.yml
 
 # nyc test coverage
