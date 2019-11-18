@@ -1,6 +1,6 @@
 const Comment = require('../model/commentModel');
 
-const DbControlClass = require('./dbControlClass');
+const { DbControlClass, Op } = require('./dbControlClass');
 
 const CommentController = new DbControlClass(Comment);
 

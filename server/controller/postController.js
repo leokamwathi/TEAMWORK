@@ -1,8 +1,8 @@
 const Post = require('../model/postModel');
 
-const DbControlClass = require('./dbControlClass');
+const {DbControlClass,Op} = require('./dbControlClass');
 
 const PostController = new DbControlClass(Post);
 
 
-module.exports = PostController;
+module.exports = {PostController,Op};

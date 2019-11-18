@@ -14,6 +14,7 @@ const options = {
 const sequelize = new Sequelize(PostgresqlURI, options);
 sequelize.sync(); // {force: true}
 module.exports = sequelize;
+
 /*
 const testConnection = () =>{
 sequelize

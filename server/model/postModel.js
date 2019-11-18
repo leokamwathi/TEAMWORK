@@ -6,8 +6,9 @@ const sequelize = require('../db/connection');
 const User = require('./userModel');
 
 const { Model } = Sequelize;
-
+ 
 class Post extends Model { }
+
 Post.init({
     // attributes
     id: {

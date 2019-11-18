@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const users = require('../model/userModel');
+const {UserController,Op} = require('./controller/userController');
 const uFunc = require('../middleware/utilityFunc');
 const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
@@ -36,6 +36,18 @@ authRouter.post('/create', adminAuth,(req, res, next) => {
     users[0].users.push(user);
     res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User account successfully created.'),201));
     // console.log(users[0].users);
+    next();
+
+    PostController.create(req.body).then((isPosted) => {
+        if (isPosted) {
+            res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('Posted successfully created'), 201));
+        } else {
+            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('Unable to post data.'), 401));
+        }
+    }
+    ).catch((error) => {
+        res.status(401).json(uFunc.prepareResult(error, 401));
+    });
     next();
 });
 

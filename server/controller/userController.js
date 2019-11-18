@@ -1,6 +1,6 @@
 const User = require('../model/userModel');
 
-const DbControlClass = require('./dbControlClass');
+const { DbControlClass, Op } = require('./dbControlClass');
 
 const UserController = new DbControlClass(User); 
 
