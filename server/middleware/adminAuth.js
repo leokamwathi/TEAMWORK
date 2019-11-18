@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const users = require('../model/users');
+const users = require('../model/userModel');
 const uFunc = require('../middleware/utilityFunc');
 
 module.exports = (req, res, next) => {
