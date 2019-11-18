@@ -61,7 +61,7 @@ const posts = [
             'post' : 'Today will be a fantastic day.',
             'isGif': 'false',
             'authorId' : 2,
-            'flags': [1,2,3,7],
+            'flaged': 'false',
         }, {
             'id' : 2,
             'createdOn': '07-05-2019',
@@ -69,7 +69,7 @@ const posts = [
             'post': 'https://picsum.photos/300',
             'isGif':'true',
             'authorId' : 3,
-            'flags': [3, 6, 10,17],
+            'flaged': 'false',
         }, {
             'id' : 3,
             'createdOn': '07-05-2019',
@@ -77,7 +77,7 @@ const posts = [
             'post' : 'I am alive today because I never gaveup yestarday.',
             'isGif': 'false',
             'authorId' : 3,
-            'flags': [12, 32, 43,58],
+            'flaged': 'false',
         },
     ]}
 ];

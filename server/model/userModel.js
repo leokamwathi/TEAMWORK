@@ -56,7 +56,6 @@ const users = [
     {
         'users': [
             {
-                'id':0,
                 'firstName': 'Gwen',
                 'lastName': 'Stacey',
                 'email': 'gwen.stacey@teamwork.com',
@@ -67,7 +66,6 @@ const users = [
                 'address': 'P.O.Box 12345, Nairobi,Kenya',
                 'isAdmin':'true',
             }, {
-                'id': 1,
                 'firstName': 'Mary',
                 'lastName': 'Jane',
                 'email': 'mary.jane@teamwork.com',
@@ -75,10 +73,9 @@ const users = [
                 'gender': 'female',
                 'jobRole': 'Graphics Designer',
                 'department': 'IT',
-                'address': 'P.O.Box 12345, Nairobi,Kenya',
+                'address': 'P.O.Box 987654, Nairobi,Kenya',
                 'isAdmin': 'false',
             }, {
-                'id': 2,
                 'firstName': 'Peter',
                 'lastName': 'Parker',
                 'email': 'peter.parker@teamwork.com',
@@ -86,7 +83,7 @@ const users = [
                 'gender': 'male',
                 'jobRole': 'Web Developer',
                 'department': 'IT',
-                'address': 'P.O.Box 12345, Nairobi,Kenya',
+                'address': 'P.O.Box 147258, Nairobi,Kenya',
                 'isAdmin': 'false',
             },
         ]

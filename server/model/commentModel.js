@@ -55,7 +55,7 @@ const comments = [
             'comment': 'This is a comment post 1.',
             'isGif': 'false',
             'authorId': 2,
-            'flags': [3, 6, 10],
+            'flaged': 'false',
         },
         {
             'id': 2,
@@ -64,7 +64,7 @@ const comments = [
             'comment': 'This is a second comment post 1.',
             'isGif': 'false',
             'authorId': 2,
-            'flags': [3, 10, 17],
+            'flaged': 'false',
         },
         {
             'id': 2,
@@ -73,7 +73,7 @@ const comments = [
             'comment': 'This is a second comment post 2.',
             'isGif': 'false',
             'authorId': 1,
-            'flags': [3, 6, 17],
+            ''flaged': 'false',
         },
         {
             'id': 2,
@@ -82,7 +82,7 @@ const comments = [
             'comment': 'This is a second comment post 2.',
             'isGif': 'false',
             'authorId': 3,
-            'flags': [3,17],
+            'flaged': 'false',
         },
         {
             'id': 2,
@@ -91,7 +91,7 @@ const comments = [
             'comment': 'This is a second comment post 3.',
             'isGif': 'false',
             'authorId': 3,
-            'flags': [3,],
+           'flaged': 'false',
         },
         {
             'id': 2,
@@ -100,7 +100,7 @@ const comments = [
             'comment': 'This is a second comment post 3.',
             'isGif': 'false',
             'authorId': 1,
-            'flags': [ 10, 17],
+            'flaged': 'false',
         }
     ]
 }];
