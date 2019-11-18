@@ -5,13 +5,14 @@ const PostgresqlURI = 'postgres://cjfkramzfgxebw:a8ab9c448f6d5e2060b2869f931f1ea
 const options = {
     dialect: 'postgres',
     protocol: 'postgres',
+    logging: false,
     dialectOptions: {
         ssl: true,
     },
 }
 
 const sequelize = new Sequelize(PostgresqlURI, options);
-
+sequelize.sync(); // {force: true}
 module.exports = sequelize;
 /*
 const testConnection = () =>{

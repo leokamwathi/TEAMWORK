@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../db/connection');
 
 const {Model} = Sequelize;
+
 class User extends Model { }
 User.init({
     // attributes
@@ -37,15 +38,15 @@ User.init({
         type: Sequelize.STRING
     },
     isAdmin: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     },
 }, {
     sequelize,
-    timestamps: true ,
+    timestamps: true,
     modelName: 'user'
     // options
 });
-
 
 
 

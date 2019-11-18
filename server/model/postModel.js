@@ -1,5 +1,57 @@
 // Handels Articles and gifs.
- 
+
+
+const Sequelize = require('sequelize');
+const sequelize = require('../db/connection');
+const User = require('./userModel');
+
+const { Model } = Sequelize;
+
+class Post extends Model { }
+Post.init({
+    // attributes
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    post: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    isGif: {
+        type: Sequelize.BOOLEAN
+    },
+    authorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    flaged: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    banned: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+}, {
+    sequelize,
+    timestamps: true,
+    modelName: 'post'
+    // options
+});
+Post.belongsTo(User, { foreignKey: 'authorId' });
+
+module.exports = Post;
+
+/*
 const posts = [
     {'posts':[
         {
@@ -32,7 +84,7 @@ const posts = [
 
 module.exports = posts;
 
-
+*/
 /*
 
 // Handels Articles and gifs.
