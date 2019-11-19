@@ -17,14 +17,14 @@ postRouter.get('/',(req, res, next) => {
     // console.log('Successfuly retrived all articles feed', uFunc.prepareResult(data[0].posts));
     next();
 });
-
+  
 postRouter.post('/',auth, (req, res, next) => {
     // Create new article
     PostController.create(req.body).then((isPosted)=>{
         if (isPosted){
             res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('Posted successfully created'), 201));
         }else{
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('Unable to post data.'), 401));
+            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('Unable to post article/gif.'), 401));
         }
     }
     ).catch((error) => {
@@ -37,7 +37,7 @@ postRouter.get('/:postId', auth, (req, res, next) => {
     // Retrive article with a given ID
     PostController.findOne({ id: req.params.postId }).then((results)=>{
         if (!results) {
-            res.status(404).json(uFunc.prepareResult(uFunc.jsonMessage('The post not found.'), 404));
+            res.status(404).json(uFunc.prepareResult(uFunc.jsonMessage('The post was not found.'), 404));
         } else {
             res.status(200).json(uFunc.prepareResult(results, 200));
         }

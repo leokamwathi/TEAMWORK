@@ -1,14 +1,14 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {UserController,Op} = require('./controller/userController');
+const {UserController,Op} = require('../controller/userController');
 const uFunc = require('../middleware/utilityFunc');
 const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
 
 const authRouter = express.Router();
 
-
+   
 /**
  *  Authentications
  */
@@ -27,22 +27,17 @@ const authRouter = express.Router();
 */
 
 authRouter.post('/create', adminAuth,(req, res, next) => {
-        const user = req.body;
-         bcrypt.hash(user.password, 10).then(
-            (hash) => {
-                 user.password = hash;
-            }
-        );
-    users[0].users.push(user);
-    res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User account successfully created.'),201));
-    // console.log(users[0].users);
-    next();
-
-    PostController.create(req.body).then((isPosted) => {
+    const user = req.body;
+        bcrypt.hash(user.password, 10).then(
+        (hash) => {
+                user.password = hash;
+        }
+    );
+    UserController.create(user).then((isPosted) => {
         if (isPosted) {
-            res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('Posted successfully created'), 201));
+            res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User account successfully created'), 201));
         } else {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('Unable to post data.'), 401));
+            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('User account not created.'), 401));
         }
     }
     ).catch((error) => {
@@ -52,48 +47,50 @@ authRouter.post('/create', adminAuth,(req, res, next) => {
 });
 
 
-authRouter.patch('/edit/:userId', auth, (req, res, next) => {
-    const editedUser = users[0].users[req.params.userId]
-    Object.keys(req.body).forEach((key) => {
-        editedUser[key] = req.body[key]
+authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
+    UserController.update(req.body).then((editedUser) => {
+        if (!editedUser) {
+            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('The user was not found.'), 401));
+        } else {
+            res.status(201).json(uFunc.prepareResult(editedUser, 201));
+        }
     })
-    res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User detail successfully edited'),201));
-    // console.log('Successfuly edited user');
+        .catch((error) => {
+            res.status(401).json(uFunc.prepareResult(error, 401));
+        });
     next();
 });
 
 authRouter.post('/signin', (req, res, next) => {
-    // Login user
-    // console.log("I WAS CALLLED AGAIN AND AGAIN", req.body.email);
-    const [user] = users[0].users.filter((u)=>u.email==req.body.email);
+    // Login user and generate auth-token
+   
+    UserController.findOne({ email: req.body.email }).then((user) => {
+        if (!user) {
+            // console.log("User Not Found");
+            return res.status(401).json(uFunc.prepareResult({
+                error: new Error('User not found!')
+            }, 401));
+        }
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+            const token = jwt.sign(
+                { userId: user.id },
+                'RANDOM_TEAMWORK_SECRET',
+                { expiresIn: '24h' });
+            const tokenData = {};
+            tokenData.userId = user.id;
+            tokenData.token = token;
+            res.status(201).json(uFunc.prepareResult(tokenData, 201));
+        } else {
+            res.status(401).json(uFunc.prepareResult({
+                error: new Error('Incorrect password!')
+            }, 401));
+        }
+        next();
+    }).catch((error) => {
+        res.status(401).json(uFunc.prepareResult(error, 401));
+    });
+  next();
 
-    if (!user) {
-        // console.log("User Not Found");
-        return res.status(401).json(uFunc.prepareResult({
-            error: new Error('User not found!')
-        },401));
-    }
-    // console.log(req.body.postBody, user);
-    if (bcrypt.compareSync(req.body.password, user.password)) {
-        const token = jwt.sign(
-            { userId: user.id },
-            'RANDOM_TEAMWORK_SECRET',
-            { expiresIn: '24h' });
-        const tokenData = {};
-        tokenData.userId = user.id;
-        tokenData.token = token;
-        res.status(201).json(uFunc.prepareResult(tokenData,201));
-        // console.log(uFunc.prepareResult(tokenData));
-        // console.log('Token Generated');
-    }else{ 
-       // console.log('Incorrect password!');
-        res.status(401).json(uFunc.prepareResult({
-            error: new Error('Incorrect password!')
-        },401));
-    }
-    next();
-    return true;
-    
 });
 
 

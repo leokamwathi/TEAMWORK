@@ -48,7 +48,8 @@ Post.init({
     modelName: 'post'
     // options
 });
-Post.belongsTo(User, { foreignKey: 'authorId' });
+
+// Post.belongsTo(User, { foreignKey: 'authorId' });
 
 module.exports = Post;
 

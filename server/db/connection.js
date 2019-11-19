@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 const PostgresqlURI = 'postgres://cjfkramzfgxebw:a8ab9c448f6d5e2060b2869f931f1eac62f2556f69028d8e6ea7330895a97257@ec2-107-21-226-44.compute-1.amazonaws.com:5432/ddju48ok87l9jp';
-
+// npx sequelize-cli db:migrate --url 'postgres://cjfkramzfgxebw:a8ab9c448f6d5e2060b2869f931f1eac62f2556f69028d8e6ea7330895a97257@ec2-107-21-226-44.compute-1.amazonaws.com:5432/ddju48ok87l9jp'
 const options = {
     dialect: 'postgres',
     protocol: 'postgres',
@@ -12,7 +12,7 @@ const options = {
 }
 
 const sequelize = new Sequelize(PostgresqlURI, options);
-sequelize.sync(); // {force: true}
+// sequelize.sync(); // {force: true}
 module.exports = sequelize;
 
 /*

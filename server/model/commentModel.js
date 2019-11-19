@@ -39,7 +39,7 @@ Comment.init({
     // options
 });
 
-Comment.belongsTo(Post, { foreignKey: 'PostId' });
+// Comment.belongsTo(Post, { foreignKey: 'PostId' });
 module.exports = Comment;
 
 /*

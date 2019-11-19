@@ -2,6 +2,7 @@
 node_modules
 .vscode
 *connections.js
+*config.json
 =======
 # Logs
 logs
