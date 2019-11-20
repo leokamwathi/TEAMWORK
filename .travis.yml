@@ -1,11 +1,13 @@
 language: node_js
 node_js:
-    - '10.16.3'
+  - '10.16.3'
 script:
-    - npm run lint
-    - npm run test
+  - npm run lint
+  - npm run test:cleardata
+  - npm run test:seeddata
+  - npm run test
 before_script:
-    - npm install
+  - npm install
 after_success:
-    - npm run test:coverage
-    - npm run push:coveralls
+  - npm run test:coverage
+  - npm run push:coveralls
