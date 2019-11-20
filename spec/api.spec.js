@@ -409,7 +409,7 @@ testPostAPI(
     {
         'firstName' : 'Miles',
         'lastName' : 'Morales',
-        'email' : 'miles.morales@teamwork.com',
+        'email': `miles.morales-${parseInt(Math.random(1000) * 1000000).toString()}@teamwork.com`,
         'password' : 'spiderboy',
         'gender' : 'male',
         'jobRole' : 'Web Designer',
