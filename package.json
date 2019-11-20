@@ -12,7 +12,7 @@
     "lint": "./node_modules/.bin/eslint server/**/*.js --fix",
     "test-init": "jasmine init",
     "test": "nyc jasmine",
-    "testcleardata":"npx sequelize-cli db:seed:all:undo",
+    "test:cleardata":"npx sequelize-cli db:seed:undo:all",
     "test:seeddata": "npx sequelize-cli db:seed:all",
     "test:coverage": "istanbul cover ./node_modules/jasmine/bin/jasmine.js && istanbul coverage",
     "push:coveralls": "nyc report --reporter=text-lcov | coveralls"

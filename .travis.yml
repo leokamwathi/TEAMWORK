@@ -3,6 +3,8 @@ node_js:
   - '10.16.3'
 script:
   - npm run lint
+  - npm run test:cleardata
+  - npm run test:seeddata
   - npm run test
 before_script:
   - npm install
