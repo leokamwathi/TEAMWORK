@@ -3,7 +3,6 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../db/connection');
-const Post = require('./postModel'); 
 
 const {Model} = Sequelize;
 
@@ -24,12 +23,21 @@ Comment.init({
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    postId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
     flaged: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     },
     banned: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    isTest: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
         defaultValue: false
     },
 }, {
@@ -39,7 +47,7 @@ Comment.init({
     // options
 });
 
-Comment.belongsTo(Post, { foreignKey: 'PostId' });
+// Comment.belongsTo(Post, { foreignKey: 'PostId' });
 module.exports = Comment;
 
 /*

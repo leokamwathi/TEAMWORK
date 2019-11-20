@@ -1,101 +1,91 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {UserController,Op} = require('./controller/userController');
-const uFunc = require('../middleware/utilityFunc');
+const {UserController,Op} = require('../controller/userController');
+const utilityCore = require('../middleware/utilityCore');
 const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
 
 const authRouter = express.Router();
 
-
-/**
- *  Authentications
- */
-
-
-/*
-{
-'status' : 'success' ,
-'data' : {
-'message' : 'User account successfully created' ,
-'token' : String ,
-'userId' : Integer ,
-...
-}
-}
-*/
-
+// Asch calls to heroku are not fun - Many false errors
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+   
 authRouter.post('/create', adminAuth,(req, res, next) => {
+    try {
         const user = req.body;
-         bcrypt.hash(user.password, 10).then(
-            (hash) => {
-                 user.password = hash;
-            }
-        );
-    users[0].users.push(user);
-    res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User account successfully created.'),201));
-    // console.log(users[0].users);
-    next();
-
-    PostController.create(req.body).then((isPosted) => {
-        if (isPosted) {
-            res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('Posted successfully created'), 201));
-        } else {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('Unable to post data.'), 401));
+        bcrypt.hash(user.password, 10).then(
+        (hash) => {
+                user.password = hash;
         }
+    );
+    return UserController.create(user).then((isPosted) => {
+        if (isPosted) {
+            res.status(201).json(utilityCore.createResponse({},201,'Successfully created user account'));
+            return next();
+        }
+        return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
     }
     ).catch((error) => {
-        res.status(401).json(uFunc.prepareResult(error, 401));
-    });
-    next();
-});
-
-
-authRouter.patch('/edit/:userId', auth, (req, res, next) => {
-    const editedUser = users[0].users[req.params.userId]
-    Object.keys(req.body).forEach((key) => {
-        editedUser[key] = req.body[key]
+        return res.status(403).json(utilityCore.createResponse(error,403,'Failed to create user'));
     })
-    res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User detail successfully edited'),201));
-    // console.log('Successfuly edited user');
-    next();
-});
-
-authRouter.post('/signin', (req, res, next) => {
-    // Login user
-    // console.log("I WAS CALLLED AGAIN AND AGAIN", req.body.email);
-    const [user] = users[0].users.filter((u)=>u.email==req.body.email);
-
-    if (!user) {
-        // console.log("User Not Found");
-        return res.status(401).json(uFunc.prepareResult({
-            error: new Error('User not found!')
-        },401));
+        
+    } catch (error) {
+        // console.log(">>CREATE ERROR!", error);
+        return res.status(401).json(utilityCore.createResponse(error, 401, 'Invalid Request'));
     }
-    // console.log(req.body.postBody, user);
-    if (bcrypt.compareSync(req.body.password, user.password)) {
-        const token = jwt.sign(
-            { userId: user.id },
-            'RANDOM_TEAMWORK_SECRET',
-            { expiresIn: '24h' });
-        const tokenData = {};
-        tokenData.userId = user.id;
-        tokenData.token = token;
-        res.status(201).json(uFunc.prepareResult(tokenData,201));
-        // console.log(uFunc.prepareResult(tokenData));
-        // console.log('Token Generated');
-    }else{ 
-       // console.log('Incorrect password!');
-        res.status(401).json(uFunc.prepareResult({
-            error: new Error('Incorrect password!')
-        },401));
-    }
-    next();
-    return true;
     
 });
 
 
+authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
+    try {
+        // console.log(">>EDITING USER ", req.body, req.param.userId);
+        const user = req.body
+        // user.id = req.param.userId
+        return UserController.update(user).then((editedCount) => {
+            // console.log("EDITD",editedCount);
+            // console.log(">>EDITED ROWS:", editedCount);
+            if (!editedCount) {
+                // console.log(">>EDITING FAILED!!!");
+               return res.status(404).json(utilityCore.createResponse({},404,'Failed to edit user details.'));
+            } 
+                // console.log(">>EDITING SUCCESS!!!");
+                res.status(201).json(utilityCore.createResponse({},201,'Successfully updated user details.'));
+                return next();
+        })
+            .catch((error) => {
+                // console.log(">>EDITING ERROR!", error); // utilityCore.prepareResult(utilityCore.jsonMessage('The user was not found.'), 403));
+                return res.status(403).json(utilityCore.createResponse(error,403,'Invalid Request'));
+                // return res.status(403).json(utilityCore.prepareResult(error, 403));
+            })
+    } catch (error) {
+       // console.log(">>PATCH ERROR!", error);
+       return res.status(403).json(utilityCore.createResponse(error,403,'Invalid Request'));
+    }
+});
 
+authRouter.post('/signin', (req, res, next) => {
+    // Login user and generate auth-token
+return UserController.findOne({ email: req.body.email }).then((user) => {
+        if (!user) {
+            console.log("User Not Found");
+            return res.status(401).json(utilityCore.createResponse({}, 401,'Invalid Login details.'));
+        }
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+            const token = jwt.sign(
+                { userId: user.id },
+                'RANDOM_TEAMWORK_SECRET',
+                { expiresIn: '24h' });
+            const tokenData = {};
+            tokenData.userId = user.id;
+            tokenData.token = token;
+            res.status(200).json(utilityCore.createResponse(tokenData,200,'Succefully signed in user.'));
+            return next();
+        }   
+    return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
+    }).catch((error) => {
+        return res.status(401).json(utilityCore.createResponse(error, 401,'Invalid Request'));
+    })
+});
 module.exports = authRouter;

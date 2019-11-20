@@ -20,10 +20,13 @@ User.init({
         type: Sequelize.STRING
     },
     email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true,
+        allowNull: false,
     },
     password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     gender: {
         type: Sequelize.STRING
@@ -39,6 +42,16 @@ User.init({
     },
     isAdmin: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+    },
+    banned: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    isTest: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
         defaultValue: false
     },
 }, {

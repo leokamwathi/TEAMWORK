@@ -39,6 +39,10 @@ Post.init({
     },
     banned: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    isTest: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
     },
@@ -48,7 +52,8 @@ Post.init({
     modelName: 'post'
     // options
 });
-Post.belongsTo(User, { foreignKey: 'authorId' });
+
+// Post.belongsTo(User, { foreignKey: 'authorId' });
 
 module.exports = Post;
 

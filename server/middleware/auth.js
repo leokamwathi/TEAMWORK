@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const uFunc = require('../middleware/utilityFunc');
+const utilityCore = require('./utilityCore');
 
 module.exports = (req, res, next) => {
     try {
@@ -10,14 +10,11 @@ module.exports = (req, res, next) => {
            // console.log("USER ID", userId, req.headers.authorization.split(' ')[2]);
             if (userId != req.headers.authorization.split(' ')[2]) {
                     // console.log("INVALID USER ID");
-                return res.status(401).json(uFunc.prepareResult({ error: new Error('Only admin can create users.') }, 401));
+                return res.status(401).json(utilityCore.createResponse({},401,'Failed to authenticate user.'));
                 }
-            next();
+            return next();
         }
-        // res.status(401).json({ error: new Error('Invalid Request') });
-        // return;
     } catch (error) {
-        // console.log("INVALID REQUEST", error);
-        res.status(401).json(uFunc.prepareResult({ error: new Error('Invalid Request') }, 401));
+        return res.status(401).json(utilityCore.createResponse(error,401,'Invalid Request'));
     }
 };

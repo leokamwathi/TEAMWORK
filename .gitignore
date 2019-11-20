@@ -1,7 +1,8 @@
 <<<<<<< HEAD
 node_modules
 .vscode
-*connections.js
+#*connections.js
+#*config.json
 =======
 # Logs
 logs
