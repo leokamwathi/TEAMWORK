@@ -27,9 +27,7 @@ createSycn(row){
         return new Promise((resolve, reject) => {
             // Find all rows
             return this.Table.findAll({
-                where: {
-                ...row
-            }}
+                where: row}
             )
                 .then(rows => {
                     // console.log("FIND ALL ROWS", JSON.stringify(rows, null, 4));
@@ -122,9 +120,7 @@ createSycn(row){
             // Change data for user with id
             // try {
                 return this.Table.findOne({
-                    where: {
-                        ...row
-                    }
+                    where: row
                 }).then((rows) => {
                     return resolve(rows)
                 }).catch((error) => {

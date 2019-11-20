@@ -128,9 +128,7 @@ const createAuthRequest = (endpointUrl, postBody = {}, userType='employee') => {
     // access_token: userData.token,
     // userId: userData.userId,
 
-   const body = {
-        ...postBody
-    };
+   const body = postBody;
 
     const authRequest = {
         headers,
