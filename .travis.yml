@@ -5,7 +5,6 @@ script:
   - npm run lint
   - npm run test:migration:undo
   - npm run test:migration:do
-  - npm run test:seed:undo
   - npm run test:seed:do
   - npm run test
 before_script:
@@ -13,3 +12,4 @@ before_script:
 after_success:
   - npm run test:coverage
   - npm run push:coveralls
+  - npm run test:seed:undo
