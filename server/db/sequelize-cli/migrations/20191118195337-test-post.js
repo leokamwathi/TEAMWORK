@@ -33,6 +33,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
+      isTest: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -44,7 +49,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return [queryInterface.dropTable('posts'),
-      queryInterface.dropTable('Posts')];
+    return queryInterface.dropTable('posts');
   }
 };

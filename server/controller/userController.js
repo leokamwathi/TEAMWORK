@@ -5,4 +5,4 @@ const { DbControlClass, Op } = require('./dbControlClass');
 const UserController = new DbControlClass(User); 
 
 
-module.exports = UserController;
+module.exports = {UserController, Op};

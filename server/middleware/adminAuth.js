@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const users = require('../model/userModel');
-const uFunc = require('../middleware/utilityFunc');
+const utilityCore = require('./utilityCore');
+const { UserController, Op } = require('../controller/userController');
 
 module.exports = (req, res, next) => {
     try {
@@ -8,18 +8,31 @@ module.exports = (req, res, next) => {
             const token = req.headers.authorization.split(' ')[1];
             const decodedToken = jwt.verify(token, 'RANDOM_TEAMWORK_SECRET');
             const { userId } = decodedToken;
-            // console.log("CHECK ADMIN USER ", userId);
+            // console.log("CHECK ADMIN USER ", userId, req.headers.authorization.split(' ')[2]);
             // console.log("USER ID", userId, req.headers.authorization.split(' ')[2]);
-            if (userId != req.headers.authorization.split(' ')[2] || (users[0].users[req.headers.authorization.split(' ')[2]].isAdmin != 'true')) {
+            if (userId != req.headers.authorization.split(' ')[2]) {
                 // console.log("INVALID USER ID");
-                return res.status(401).json(uFunc.prepareResult({ error: new Error('Only admin can create users.') },401));
+                return res.status(401).json(utilityCore.createResponse({}, 401, 'Only an admin can create users.'));
             }
-            next();
+            // console.log("Find One");
+            return UserController.findOne(
+                { 
+                    id: req.headers.authorization.split(' ')[2], 
+                    isAdmin: true }
+                    ).then((user) => {
+                    if (user && user.id == userId){
+                        return next();
+                    }
+                        return res.status(401).json(utilityCore.createResponse({}, 401, 'Failed to authenticate user.'));              
+            }).catch((error) => {
+                // console.log('AuthERROR', error);
+                return res.status(401).json(utilityCore.createResponse(error, 401, 'Invalid Request'));
+            })
         }
         // res.status(401).json({ error: new Error('Invalid Request') });
         // return;
     } catch (error) {
-        // console.log("INVALID REQUEST", error);
-        res.status(401).json(uFunc.prepareResult({ error: new Error('Invalid Request') },401));
+        // console.log("INVALID ADMIN AUTH REQUEST", error);
+        return res.status(401).json(utilityCore.createResponse(error, 401, 'Invalid Request!!'));
     }
 };

@@ -11,6 +11,7 @@ module.exports = {
       'department': 'IT',
       'address': 'P.O.Box 12345, Nairobi,Kenya',
       'isAdmin': 'true',
+      'isTest': 'true',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -24,6 +25,7 @@ module.exports = {
         'department': 'IT',
         'address': 'P.O.Box 987654, Nairobi,Kenya',
         'isAdmin': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -36,6 +38,7 @@ module.exports = {
         'department': 'IT',
         'address': 'P.O.Box 147258, Nairobi,Kenya',
         'isAdmin': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -43,6 +46,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('users', null, {});
+    return queryInterface.bulkDelete('users', {isTest:true}, {});
   }
 };

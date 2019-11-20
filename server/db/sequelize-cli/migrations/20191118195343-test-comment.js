@@ -29,6 +29,11 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      isTest: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -40,8 +45,7 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return [queryInterface.dropTable('comments'),
-      queryInterface.dropTable('comments')];
+    return queryInterface.dropTable('comments');
   }
 };
 

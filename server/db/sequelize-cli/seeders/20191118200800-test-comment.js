@@ -7,6 +7,7 @@ module.exports = {
         'comment': 'This is a comment post 1.',
         'authorId': 3,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -15,6 +16,7 @@ module.exports = {
         'comment': 'This is a second comment post 1.',
         'authorId': 2,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -23,6 +25,7 @@ module.exports = {
         'comment': 'This is a second comment post 2.',
         'authorId': 1,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
         },
@@ -31,6 +34,7 @@ module.exports = {
         'comment': 'This is a second comment post 2.',
         'authorId': 2,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -39,6 +43,7 @@ module.exports = {
         'comment': 'This is a second comment post 3.',
         'authorId': 2,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -47,6 +52,7 @@ module.exports = {
         'comment': 'What the ****.',
         'authorId': 1,
         'flaged': 'true',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -55,6 +61,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('comments', null, {});
+    return queryInterface.bulkDelete('comments', { isTest: true }, {});
   }
 };

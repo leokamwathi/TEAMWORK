@@ -8,6 +8,7 @@ module.exports = {
         'isGif': 'false',
         'authorId': 2,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -16,6 +17,7 @@ module.exports = {
         'isGif': 'true',
         'authorId': 1,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -24,6 +26,7 @@ module.exports = {
         'isGif': 'false',
         'authorId': 3,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -32,6 +35,7 @@ module.exports = {
         'isGif': 'false',
         'authorId': 3,
         'flaged': 'false',
+        'isTest': 'true',
         createdAt: new Date(),
         updatedAt: new Date()
         
@@ -41,6 +45,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('posts', null, {});
+    return queryInterface.bulkDelete('posts', { isTest: true }, {});
   }
 };

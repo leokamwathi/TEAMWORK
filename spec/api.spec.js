@@ -1,9 +1,11 @@
 const Request = require("request");
 const jwt = require('jsonwebtoken');
+const { UserController, Op } = require('../server/controller/userController');
+const { PostController} = require('../server/controller/postController');
+const { CommentController } = require('../server/controller/commentController');
 const server = require('../server/server');
 
 /*
-
 
 beforeEach((done) => {
     server.run(done);
@@ -16,17 +18,22 @@ afterEach((done) => {
 */
 
 const apiEndpointUrl = 'http://localhost:3000/api/v1';
-const postKeys = ['id', 'createdOn', 'title', 'post', 'isGif', 'authorId'];
-const commentKeys = ['id', 'createdOn', 'comment', 'isGif', 'authorId'];
+const postKeys = ['id', 'title', 'post', 'isGif', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
+const commentKeys = ['id', 'comment', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
 const userKeys = ['id', 'firstName', 'lastName', 'email', 'password', 'gender', 'jobRole', 'department', 'address', 'isAdmin'];
-const successKeys = ['statusMessage'];
+const successKeys = ['message'];
 const signinKeys = ['userId', 'token'];
-const postedKeys = ['statusMessage'];
-const deleteKeys = ['statusMessage'];
+const postedKeys = ['message'];
+const deleteKeys = ['message'];
 const errorKeys = ['error'];
 const userData = {};
-// const aminData = {};
-// let myToken = '';
+const testDebug = false;
+
+
+// jasmine.loadConfig({
+//     random: false,
+// });
+
 
 
 /**
@@ -44,6 +51,8 @@ switch (code) {
         return 'success';
     case 401:
         return 'error';
+    case 403:
+        return 'error';
     case 404:
         return 'error';
     case 500:
@@ -53,6 +62,17 @@ switch (code) {
 }
 
 }
+
+/**
+ * Show current test on console if testDebug = true
+ * @param {*} msg 
+ */
+
+ const debuglog = (msg)=>{
+     if (testDebug){
+         console.log('\nTESTING ',msg)
+     }
+ }
 
 /**
  *  Get User Token
@@ -81,15 +101,23 @@ const setupAuthUser = (userType='employee') =>{
     }
 
     if (userType === 'admin') {
-        getJWSToken(0)
+        getJWSToken(1)
         if (!userData.token) {
-            userData.userId = 0;
+            userData.userId = 1;
             userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
         }
     }
+
+    if (userType === 'fake') {
+            userData.userId = 1000;
+            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
+    }
+
+    if (userType === 'none') {
+            userData.userId = 0;
+            userData.token = '';        
+    }
 }
-
-
 
 const createAuthRequest = (endpointUrl, postBody = {}, userType='employee') => {
     setupAuthUser(userType)
@@ -130,7 +158,22 @@ const testDataHasKeys = (endpointTest='', testKeys=[], data={}) => {
     });
 }
 
+const getRandomTestIDs = (Model='user') => {
+            
+            try {
+                if (Model=='user'){
+                    UserController.findAll({isTest:true}).then((rows)=>{
+                        return rows.map(row=>row.id)
+                    })
+                }
+                
+            }catch(error){
+                return []
+            }
+}
+
 const testGetArrayAPI = (endpointTest, endpoint, testKeys, statusCode = 200,userType='employee') => {
+    
     describe(`Testing Endpoint: ${endpointTest}`, () => {
         const data = {};
         beforeAll((done) => {
@@ -138,10 +181,15 @@ const testGetArrayAPI = (endpointTest, endpoint, testKeys, statusCode = 200,user
             Request.get(createAuthRequest(apiUrl,{}, userType), (error, response, body) => {
                 data.status = response.statusCode;
                 data.body = body;
-                // console.log(`TESTING ${endpointTest}...`, data.body.status, data.body.data);
+                // console.log(`TESTING ${endpointTest}...`, data.body);
                 done();
             })
         });
+
+        afterAll((done)=>{
+            debuglog(endpointTest);
+            done();
+        })
  
         // TODO:See if we can make this work in the future
         // 
@@ -157,17 +205,35 @@ const testGetArrayAPI = (endpointTest, endpoint, testKeys, statusCode = 200,user
            // expect(data.body.status).toBe(statusCodeStatus(statusCode));
         });
 
-        it(`${endpointTest} Data Keys Test.`, () => {
-            const responseData = data.body.data[0];
-            testKeys.forEach((key) => {
-                expect(Object.keys(responseData)).toContain(key);
+
+        // it(`${endpointTest} Data Keys Test.`, () => {
+        //     const responseData = data.body.data[0];
+        //     testKeys.forEach((key) => {
+        //         expect(Object.keys(responseData)).toContain(key);
+        //     });
+        // });
+
+        if (statusCode == 200) {
+            it(`${endpointTest} Test if Data has Keys.`, () => {
+                const responseData = data.body.data[0];
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
             });
-        });
+        } else {
+            it(`${endpointTest} Test if response has Keys.`, () => {
+                const responseData = data.body;
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
+            });
+        }
 
     });
 }
 
-const testGetAPI = (endpointTest, endpoint, testKeys, statusCode = 200, userType = 'employee') => {
+const testGetAPI = (endpointTest, endpoint, testKeys=[], statusCode = 200, userType = 'employee') => {
+    debuglog(endpointTest);
     describe(`Testing Endpoint: ${endpointTest}`, () => {
         const data = {};
         beforeAll((done) => {
@@ -184,18 +250,35 @@ const testGetAPI = (endpointTest, endpoint, testKeys, statusCode = 200, userType
             // expect(data.body.status).toBe(statusCodeStatus(statusCode));
         });
 
-        it(`${endpointTest} Data Keys Test.`, () => {
-            const responseData = data.body.data;
-            testKeys.forEach((key) => {
-                expect(Object.keys(responseData)).toContain(key);
+            // it(`${endpointTest} Data Keys Test.`, () => {
+            //     const responseData = data.body.data;
+            //     testKeys.forEach((key) => {
+            //         expect(Object.keys(responseData)).toContain(key);
+            //     });
+            // });
+
+        if (statusCode == 200) {
+            it(`${endpointTest} Test if Data has Keys.`, () => {
+                const responseData = data.body.data;
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
             });
-        });
+        } else {
+            it(`${endpointTest} Test if response has Keys.`, () => {
+                const responseData = data.body;
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
+            });
+        }
 
     });
 }
 
-const testPostAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 201, userType = 'admin') => {
 
+
+const testPostAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 201, userType = 'admin') => {
     describe(`Testing Endpoint: ${endpointTest}`, () => {
         const data = {};
         beforeAll((done) => {
@@ -208,23 +291,37 @@ const testPostAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 20
             });
         });
 
+        afterAll((done) => {
+            debuglog(endpointTest);
+            done();
+        })
+
             it(`${endpointTest} Status ${statusCode}`, () => {
                 expect(data.status).toBe(statusCode);
                 // expect(data.body.status).toBe(statusCodeStatus(statusCode));
             });
 
-            it(`${endpointTest} Data Keys Test.`, () => {
+        if (statusCode == 200){
+            it(`${endpointTest} Test if Data has Keys.`, () => {
                 const responseData = data.body.data;
-                testKeys.forEach((key)=>{
+                testKeys.forEach((key) => {
                     expect(Object.keys(responseData)).toContain(key);
                 });
             });
+        }else{
+            it(`${endpointTest} Test if response has Keys.`, () => {
+                const responseData = data.body;
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
+            });
+        }
+            
     
     });
 }
 
 const testPatchAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 201, userType = 'employee') => {
-    
     describe(`Testing Endpoint: ${endpointTest}`, () => {
         const data = {};
         beforeAll((done) => {
@@ -235,22 +332,36 @@ const testPatchAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 2
                 done();
             });
         });
+
+        afterAll((done) => {
+            debuglog(endpointTest);
+            done();
+        })
         
             it(`${endpointTest} Status ${statusCode}`, () => {
                 expect(data.status).toBe(statusCode);
             });
 
-            it(`${endpointTest} Data Keys Test.`, () => {
+        if (statusCode == 200) {
+            it(`${endpointTest} Test if Data has Keys.`, () => {
                 const responseData = data.body.data;
                 testKeys.forEach((key) => {
                     expect(Object.keys(responseData)).toContain(key);
                 });
             });
-        
+        } else {
+            it(`${endpointTest} Test if response has Keys.`, () => {
+                const responseData = data.body;
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
+            });
+        }
     });
 }
 
 const testDeleteAPI = (endpointTest, endpoint, testKeys, statusCode = 203, userType = 'employee') => {
+    debuglog(endpointTest);
     describe(`Testing Endpoint: ${endpointTest}`, () => {
         const data = {};
         beforeAll((done) => {
@@ -266,27 +377,36 @@ const testDeleteAPI = (endpointTest, endpoint, testKeys, statusCode = 203, userT
             expect(data.status).toBe(statusCode);
         });
 
-        it(`${endpointTest} Data Keys Test.`, () => {
-            const responseData = data.body.data;
-            testKeys.forEach((key) => {
-                expect(Object.keys(responseData)).toContain(key);
+            it(`${endpointTest} Test if response has Keys.`, () => {
+                const responseData = data.body;
+                testKeys.forEach((key) => {
+                    expect(Object.keys(responseData)).toContain(key);
+                });
             });
-        });
         
-
     });
 }
-
 
 /**
  *  AUTH TESTS
  */
 
 testPostAPI(
-    "POST /auth/create", 
+    "POST /auth/signin (User can signin)",
+    "/auth/signin",
+    {
+        'email': 'peter.parker@teamwork.com',
+        'password': 'spiderman'
+    },
+    signinKeys,
+    200,
+    'none'
+);
+
+testPostAPI(
+    "POST /auth/create (Admin can create user)", 
     "/auth/create", 
     {
-        'id':4,
         'firstName' : 'Miles',
         'lastName' : 'Morales',
         'email' : 'miles.morales@teamwork.com',
@@ -295,28 +415,54 @@ testPostAPI(
         'jobRole' : 'Web Designer',
         'department' : 'IT',
         'address' : 'P.O.Box 12345, Nairobi,Kenya',
-        'isAdmin':'false'
+        'isAdmin':'false',
+        'isTest': 'true',
     }, 
     successKeys,
     201,
     'admin'
 );
 
-// Non Admin cann't create user
+testPatchAPI(
+    "PATCH /auth/edit/1",
+    "/auth/edit/1",
+    {
+        'id':1,
+        'lastName': new Date(),
+    },
+    successKeys,
+    201,
+    'admin'
+);
+
+// ERROR TESTING
+
 testPostAPI(
-    "POST /auth/create",
+    "POST /auth/signin (Wrong Password)",
+    "/auth/signin",
+    {
+        'email': 'peter.parker@teamwork.com',
+        'password': 'flyman'
+    },
+    errorKeys,
+    401,
+    'none'
+);
+
+testPostAPI(
+    "POST /auth/create (Non Admin cannot create user).",
     "/auth/create",
     {
-        'id': 4,
-        'firstName': 'Miles',
-        'lastName': 'Morales',
-        'email': 'miles.morales@teamwork.com',
-        'password': 'spiderboy',
+        'firstName': 'Ben',
+        'lastName': 'Parker',
+        'email': 'ben.parker@teamwork.com',
+        'password': 'uncleben',
         'gender': 'male',
-        'jobRole': 'Web Designer',
-        'department': 'IT',
+        'jobRole': 'Uncle',
+        'department': 'House',
         'address': 'P.O.Box 12345, Nairobi,Kenya',
-        'isAdmin': 'false'
+        'isAdmin': 'false',
+        'isTest': 'true',
     },
     errorKeys,
     401,
@@ -324,37 +470,42 @@ testPostAPI(
 );
 
 testPatchAPI(
-    "POST /auth/edit/0",
-    "/auth/edit/0",
+    "PATCH /auth/edit/3 (Non admin cannot edit users)",
+    "/auth/edit/3",
     {
-        'lastname': 'Morales',
-    },
-    successKeys
-);
-
-testPostAPI(
-    "POST /auth/signin",
-    "/auth/signin",
-    {
-        'email': 'peter.parker@teamwork.com',
-        'password':'spiderman'
-    },
-    signinKeys
-);
-
-// Wrong Password
-
-testPostAPI(
-    "POST /auth/signin",
-    "/auth/signin",
-    {
-        'email': 'peter.parker@teamwork.com',
-        'password': 'flyman'
+        'id': 1,
+        'lastName': 'Morales',
     },
     errorKeys,
-    401
+    401,
+    'employee'
 );
 
+testPatchAPI(
+    "PATCH /auth/edit/3 (Fake authorization token user cannot edit users)",
+    "/auth/edit/3",
+    {
+        'id': 1,
+        'lastName': 'Morales',
+    },
+    errorKeys,
+    401,
+    'fake'
+);
+
+testPatchAPI(
+    "PATCH /auth/edit/1000 (Admin cannot edit non existant user)",
+    "/auth/edit/1000",
+    {
+        'id': 1000,
+        'firstName':'Bruce',
+        'lastName': 'Wyane',
+        'isTest': 'true',
+    },
+    errorKeys,
+    404,
+    'admin'
+);
 
 /**
  *  ARTICLES TESTS
@@ -365,6 +516,14 @@ testGetArrayAPI(
     "GET /feed",
     "/feed",
     postKeys
+);
+
+testGetArrayAPI(
+    "GET /feed (None logged is users can view feed)",
+    "/feed",
+    postKeys,
+    200,
+    'none'
 );
 
 testGetAPI(
@@ -382,11 +541,11 @@ testPostAPI(
         'post': 'It started like any other day.',
         'isGif': 'false',
         'authorId': 4,
-        'flags': [],
+        'flags': false,
+        'isTest': 'true',
     },
     postedKeys
 );
-
 
 testPatchAPI(
     "Patch /articles/1",
@@ -398,34 +557,75 @@ testPatchAPI(
         'post': 'Edited Post.',
         'isGif': 'false',
         'authorId': 3,
+        'isTest': 'true',
     },
-    postKeys
+    successKeys
 );
 
 testPatchAPI(
     "Patch /articles/1/flag (add flag)",
     "/articles/1/flag",
     {   
-        'userId': 1,
         'flag':'true'
     },
-    postKeys
+    successKeys
 );
 
 testPatchAPI(
     "Patch /articles/2/flag (remove flag)",
     "/articles/2/flag",
     {
-        'userId':12,
         'flag': 'false'
     },
-    postKeys
+    successKeys
 );
 
 testDeleteAPI(
     "DELETE /articles/1",
     "/articles/1",
     deleteKeys
+);
+
+// ERRORS TESTING
+
+testDeleteAPI(
+    "DELETE /articles/1000 (Not found error)",
+    "/articles/1000",
+    errorKeys,
+    404
+);
+
+testPatchAPI(
+    "Patch /articles/1000 (Not found error)",
+    "/articles/1000",
+    {
+        'id': 1000,
+        'createdOn': '07-05-2019',
+        'title': 'Edited Title',
+        'post': 'Edited Post.',
+        'isGif': 'false',
+        'authorId': 3,
+        'isTest': 'true',
+    },
+    errorKeys,
+    404
+);
+
+testGetAPI(
+    "GET /articles/1000 (Not found error)",
+    "/articles/1000",
+    errorKeys,
+    404
+);
+
+testPatchAPI(
+    "Patch /articles/1000/flag (not found flag)",
+    "/articles/1000/flag",
+    {
+        'flag': 'true'
+    },
+    errorKeys,
+    404
 );
 
 
@@ -449,26 +649,27 @@ testPostAPI(
     "POST /articles/1/comments",
     "/articles/1/comments",
     {
-        'createdOn': '07-05-2019',
         'comment': 'Its a new comment.',
-        'isGif': 'false',
         'authorId': 4,
-        'flags': [],
+        'flags': 'false',
+        'postId': 1,
+        'isTest': 'true',
     },
-    postedKeys
+    successKeys
 );
 
 testPatchAPI(
-    "PATCH /articles/1/comments/2",
-    "/articles/1/comments/2",
+    "PATCH /articles/1/comments/4",
+    "/articles/1/comments/4",
     {
-        'createdOn': '07-05-2019',
+        'id':4,
         'comment': 'Its an edited comment.',
-        'isGif': 'false',
         'authorId': 2,
-        'flags': [],
+        'flags': 'false',
+        'postId': 3,
+        'isTest': 'true',
     },
-    commentKeys
+    successKeys
 );
 
 testDeleteAPI(
@@ -481,22 +682,65 @@ testPatchAPI(
     "Patch /articles/1/comments/1/flag (add flag)",
     "/articles/1/comments/1/flag",
     {
-        'userId': 7,
-        'flag': 'true'
+        'id':1,
+        'flag': 'true',
+        'isTest': 'true',
     },
-    commentKeys
+    successKeys
 );
 
 testPatchAPI(
-    "Patch /articles/2/comments/1/flag (remove flag)",
-    "/articles/2/comments/1/flag",
+    "Patch /articles/2/comments/6/flag (remove flag)",
+    "/articles/2/comments/6/flag",
     {
-        'userId': 2,
-        'flag': 'false'
+        'id': 6,
+        'flag': 'false',
+        'isTest': 'true',
     },
-    commentKeys
+    successKeys
 );
 
+// Error testing
+
+
+testDeleteAPI(
+    "DELETE /articles/2/comments/1000 (Not found error)",
+    "/articles/2/comments/1000",
+    errorKeys,
+    404
+);
+
+testPatchAPI(
+    "Patch /articles/2/comments/1000 (Not found error)",
+    "/articles/2/comments/1000",
+    {
+        'id': 1000,
+        'comment': 'Its an edited comment.',
+        'authorId': 2,
+        'flags': 'false',
+        'postId': 3,
+        'isTest': 'true',
+    },
+    errorKeys,
+    404
+);
+
+testGetAPI(
+    "GET /articles/2/comments/1000 (Not found error)",
+    "/articles/2/comments/1000",
+    errorKeys,
+    404
+);
+
+testPatchAPI(
+    "Patch /articles/2/comments/1000/flag (not found flag)",
+    "/articles/2/comments/1000/flag",
+    {
+        'flag': 'true'
+    },
+    errorKeys,
+    404
+);
 
 
 
@@ -514,7 +758,8 @@ testPostAPI(
         'post': 'https://picsum.photos/300',
         'isGif': 'true',
         'authorId': 9,
-        'flags': [],
+        'flags': false,
+        'isTest': 'true',
     },
     postedKeys
 );
@@ -543,28 +788,27 @@ testPatchAPI(
         'post': 'http://editedgif.url',
         'isGif': 'true',
         'authorId': 5,
+        'isTest': 'true',
     },
-    postKeys
+    successKeys
 );
 
 testPatchAPI(
     "Patch /gifs/1/flag (add flag)",
     "/gifs/1/flag",
     {
-        'userId': 1,
         'flag': 'true'
     },
-    postKeys
+    successKeys
 );
 
 testPatchAPI(
     "Patch /gifs/2/flag (remove flag)",
     "/gifs/2/flag",
     {
-        'userId': 12,
         'flag': 'false'
     },
-    postKeys
+    successKeys
 );
 
 
@@ -589,26 +833,27 @@ testPostAPI(
     "POST /gifs/1/comments",
     "/gifs/1/comments",
     {
-        'createdOn': '07-05-2019',
         'comment': 'Its a new comment.',
-        'isGif': 'false',
         'authorId': 4,
-        'flags': [],
+        'flags': 'false',
+        'postId': 1,
+        'isTest': 'true',
     },
-    postedKeys
+    successKeys
 );
 
 testPatchAPI(
-    "PATCH /gifs/1/comments/2",
-    "/gifs/1/comments/2",
+    "PATCH /gifs/1/comments/4",
+    "/gifs/1/comments/4",
     {
-        'createdOn': '07-05-2019',
+        'id': 4,
         'comment': 'Its an edited comment.',
-        'isGif': 'false',
         'authorId': 2,
-        'flags': [],
+        'flags': 'false',
+        'postId': 3,
+        'isTest': 'true',
     },
-    commentKeys
+    successKeys
 );
 
 testDeleteAPI(
@@ -621,20 +866,62 @@ testPatchAPI(
     "Patch /gifs/1/comments/1/flag (add flag)",
     "/gifs/1/comments/1/flag",
     {
-        'userId': 7,
-        'flag': 'true'
+        'id': 1,
+        'flag': 'true',
     },
-    commentKeys
+    successKeys
 );
 
 testPatchAPI(
-    "Patch /gifs/2/comments/1/flag (remove flag)",
-    "/gifs/2/comments/1/flag",
+    "Patch /gifs/2/comments/6/flag (remove flag)",
+    "/gifs/2/comments/6/flag",
     {
-        'userId': 2,
-        'flag': 'false'
+        'id': 6,
+        'flag': 'false',
     },
-    commentKeys
+    successKeys
+);
+
+// Error testing
+
+
+testDeleteAPI(
+    "DELETE /gifs/2/comments/1000 (Not found error)",
+    "/gifs/2/comments/1000",
+    errorKeys,
+    404
+);
+
+testPatchAPI(
+    "Patch /gifs/2/comments/1000 (Not found error)",
+    "/gifs/2/comments/1000",
+    {
+        'id': 1000,
+        'comment': 'Its an edited comment.',
+        'authorId': 2,
+        'flags': 'false',
+        'postId': 3,
+        'isTest': 'true',
+    },
+    errorKeys,
+    404
+);
+
+testGetAPI(
+    "GET /gifs/2/comments/1000 (Not found error)",
+    "/gifs/2/comments/1000",
+    errorKeys,
+    404
+);
+
+testPatchAPI(
+    "Patch /gifs/2/comments/1000/flag (not found flag)",
+    "/gifs/2/comments/1000/flag",
+    {
+        'flag': 'true'
+    },
+    errorKeys,
+    404
 );
 
 

@@ -1,33 +1,34 @@
 const express = require('express');
 const { CommentController, Op } = require('../controller/commentController');
-const uFunc = require('../middleware/utilityFunc');
+const utilityCore = require('../middleware/utilityCore');
 const auth = require('../middleware/auth');
 
 const commentsRouter = express.Router({mergeParams: true});
 
 commentsRouter.get('/', auth, (req, res, next) => {
     CommentController.findAll().then((comments) => {
-        res.status(200).json(uFunc.prepareResult(comments, 200));
+        res.status(200).json(utilityCore.createResponse(comments, 200,'Successfully retrieved the comments.'));
+        next();
     }).catch((error) => {
-        res.status(401).json(uFunc.prepareResult(error, 401));
+        res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
     });
-    next();
 });
 
 
 commentsRouter.get('/:commentId', auth, (req, res, next) => {
     CommentController.findOne({ id: req.params.commentId }).then((results) => {
         if (!results) {
-            res.status(404).json(uFunc.prepareResult(uFunc.jsonMessage('The comment was not found.'), 404));
+            res.status(404).json(utilityCore.createResponse({},404,'Failed to find the comment.'));
         } else {
-            res.status(200).json(uFunc.prepareResult(results, 200));
+            res.status(200).json(utilityCore.createResponse(results, 200,'Successfully retrieved comment.'));
+            next();
         }
     }).catch((error) => {
-        res.status(401).json(uFunc.prepareResult(error, 401));
+        res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
     });
 
-    // console.log('Successfuly retrived article', data[0].posts[req.params.postId]);
-    next();
+    // console.log('Successfuly retrieved article', data[0].posts[req.params.postId]);
+   
 
 });
 
@@ -35,70 +36,72 @@ commentsRouter.get('/:commentId', auth, (req, res, next) => {
 commentsRouter.post('/', auth, (req, res, next) => {
     // Create new comment
     const comment = req.body;
-    comment.postID = req.params.postId;
-
+    // comment['postId'] = req.params.postId;
+    // console.log("COMMENT",comment);
     CommentController.create(comment).then((isPosted) => {
         if (isPosted) {
-            res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('Comment successfully posted'), 201));
+            res.status(201).json(utilityCore.createResponse({},201,'Successfully posted comment'));
+            
         } else {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('Unable to create comment.'), 401));
+            return res.status(403).json(utilityCore.createResponse({},403,'Failed to post the Comment.'));
         }
+        next();
     }
     ).catch((error) => {
-        res.status(401).json(uFunc.prepareResult(error, 401));
+       // console.log('ERROR!!!!!!!!!!!',error);
+        res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
     });
-    next();
 });
 
 // Edit comment
 commentsRouter.patch('/:commentId', auth, (req, res, next) => {
     // Edit article with a given ID
- 
-    CommentController.update(req.body).then((editedPost) => {
-        if (!editedPost) {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('The comment was not found.'), 401));
+    CommentController.update(req.body).then((editedComment) => {
+        if (!editedComment) {
+            res.status(404).json(utilityCore.createResponse({},404,'Failed to find the comment.'));
         } else {
-            res.status(201).json(uFunc.prepareResult(editedPost, 201));
+            res.status(201).json(utilityCore.createResponse({},201,'Successfully edited comment.'));
         }
+        next();
     })
         .catch((error) => {
-            res.status(401).json(uFunc.prepareResult(error, 401));
+           // console.log("ERROR>><<<",error);
+            res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request.'));
         });
-    next();
-
 });
 
 
 commentsRouter.delete('/:commentId', auth, (req, res, next) => {
     // Delete comments with a given ID
-
     CommentController.update({ id: req.params.commentId }).then((isDeleted) => {
         if (!isDeleted) {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('The comment was not found.'), 401));
+            res.status(404).json(utilityCore.createResponse({},404,'Failed to delete comment.'));
         } else {
-            res.status(203).json(uFunc.prepareResult(uFunc.jsonMessage('Successfully deleted comment.'), 203));
+            res.status(203).json(utilityCore.createResponse({},203,'Successfully deleted comment.'));
+            next();
         }
     })
         .catch((error) => {
-            res.status(401).json(uFunc.prepareResult(error, 401));
+            res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
         });
-    next();
 
 });
 
 commentsRouter.patch('/:commentId/flag', auth, (req, res, next) => {
     // Flag a comment with a given ID
-    CommentController.update({ id: req.params.commentId, flaged: true }).then((editedPost) => {
-        if (!editedPost) {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('The comment was not found.'), 401));
+    CommentController.update({ id: req.params.commentId, flaged: req.params.flag }).then((editedComment) => {
+        if (!editedComment) {
+            res.status(404).json(utilityCore.createResponse({},404,'Failed to flag comment'));
         } else {
-            res.status(201).json(uFunc.prepareResult(editedPost, 201));
+            res.status(201).json(utilityCore.createResponse({},201,'Successfully flaged comment.'));
+            next();
         }
+        
     })
         .catch((error) => {
-            res.status(401).json(uFunc.prepareResult(error, 401));
+            res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
         });
-    next();
+    
 });
 
 module.exports = commentsRouter;

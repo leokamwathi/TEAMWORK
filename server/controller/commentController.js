@@ -5,4 +5,4 @@ const { DbControlClass, Op } = require('./dbControlClass');
 const CommentController = new DbControlClass(Comment);
 
 
-module.exports = CommentController;
+module.exports = {CommentController,Op};

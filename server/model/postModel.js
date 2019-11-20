@@ -39,6 +39,10 @@ Post.init({
     },
     banned: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    isTest: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
     },

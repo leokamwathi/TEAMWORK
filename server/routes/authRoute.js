@@ -2,74 +2,75 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {UserController,Op} = require('../controller/userController');
-const uFunc = require('../middleware/utilityFunc');
+const utilityCore = require('../middleware/utilityCore');
 const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
 
 const authRouter = express.Router();
 
+// Asch calls to heroku are not fun - Many false errors
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
    
-/**
- *  Authentications
- */
-
-
-/*
-{
-'status' : 'success' ,
-'data' : {
-'message' : 'User account successfully created' ,
-'token' : String ,
-'userId' : Integer ,
-...
-}
-}
-*/
-
 authRouter.post('/create', adminAuth,(req, res, next) => {
-    const user = req.body;
+    try {
+        const user = req.body;
         bcrypt.hash(user.password, 10).then(
         (hash) => {
                 user.password = hash;
         }
     );
-    UserController.create(user).then((isPosted) => {
+    return UserController.create(user).then((isPosted) => {
         if (isPosted) {
-            res.status(201).json(uFunc.prepareResult(uFunc.jsonMessage('User account successfully created'), 201));
-        } else {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('User account not created.'), 401));
+            res.status(201).json(utilityCore.createResponse({},201,'Successfully created user account'));
+            return next();
         }
+        return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
     }
     ).catch((error) => {
-        res.status(401).json(uFunc.prepareResult(error, 401));
-    });
-    next();
+        return res.status(403).json(utilityCore.createResponse(error,403,'Failed to create user'));
+    })
+        
+    } catch (error) {
+        // console.log(">>CREATE ERROR!", error);
+        return res.status(401).json(utilityCore.createResponse(error, 401, 'Invalid Request'));
+    }
+    
 });
 
 
 authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
-    UserController.update(req.body).then((editedUser) => {
-        if (!editedUser) {
-            res.status(401).json(uFunc.prepareResult(uFunc.jsonMessage('The user was not found.'), 401));
-        } else {
-            res.status(201).json(uFunc.prepareResult(editedUser, 201));
-        }
-    })
-        .catch((error) => {
-            res.status(401).json(uFunc.prepareResult(error, 401));
-        });
-    next();
+    try {
+        // console.log(">>EDITING USER ", req.body, req.param.userId);
+        const user = req.body
+        // user.id = req.param.userId
+        return UserController.update(user).then((editedCount) => {
+            // console.log("EDITD",editedCount);
+            // console.log(">>EDITED ROWS:", editedCount);
+            if (!editedCount) {
+                // console.log(">>EDITING FAILED!!!");
+               return res.status(404).json(utilityCore.createResponse({},404,'Failed to edit user details.'));
+            } 
+                // console.log(">>EDITING SUCCESS!!!");
+                res.status(201).json(utilityCore.createResponse({},201,'Successfully updated user details.'));
+                return next();
+        })
+            .catch((error) => {
+                // console.log(">>EDITING ERROR!", error); // utilityCore.prepareResult(utilityCore.jsonMessage('The user was not found.'), 403));
+                return res.status(403).json(utilityCore.createResponse(error,403,'Invalid Request'));
+                // return res.status(403).json(utilityCore.prepareResult(error, 403));
+            })
+    } catch (error) {
+       // console.log(">>PATCH ERROR!", error);
+       return res.status(403).json(utilityCore.createResponse(error,403,'Invalid Request'));
+    }
 });
 
 authRouter.post('/signin', (req, res, next) => {
     // Login user and generate auth-token
-   
-    UserController.findOne({ email: req.body.email }).then((user) => {
+return UserController.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
-            // console.log("User Not Found");
-            return res.status(401).json(uFunc.prepareResult({
-                error: new Error('User not found!')
-            }, 401));
+            console.log("User Not Found");
+            return res.status(401).json(utilityCore.createResponse({}, 401,'Invalid Login details.'));
         }
         if (bcrypt.compareSync(req.body.password, user.password)) {
             const token = jwt.sign(
@@ -79,20 +80,12 @@ authRouter.post('/signin', (req, res, next) => {
             const tokenData = {};
             tokenData.userId = user.id;
             tokenData.token = token;
-            res.status(201).json(uFunc.prepareResult(tokenData, 201));
-        } else {
-            res.status(401).json(uFunc.prepareResult({
-                error: new Error('Incorrect password!')
-            }, 401));
-        }
-        next();
+            res.status(200).json(utilityCore.createResponse(tokenData,200,'Succefully signed in user.'));
+            return next();
+        }   
+    return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
     }).catch((error) => {
-        res.status(401).json(uFunc.prepareResult(error, 401));
-    });
-  next();
-
+        return res.status(401).json(utilityCore.createResponse(error, 401,'Invalid Request'));
+    })
 });
-
-
-
 module.exports = authRouter;

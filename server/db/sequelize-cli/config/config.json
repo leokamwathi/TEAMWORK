@@ -1,0 +1,38 @@
+{
+  "development": {
+    "username": "cjfkramzfgxebw",
+    "password": "a8ab9c448f6d5e2060b2869f931f1eac62f2556f69028d8e6ea7330895a97257",
+    "database": "ddju48ok87l9jp",
+    "host": "ec2-107-21-226-44.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "port": "5432",
+    "dialectOptions": {
+      "ssl": "true"
+    }
+  },
+  "test": {
+    "username": "cjfkramzfgxebw",
+    "password": "a8ab9c448f6d5e2060b2869f931f1eac62f2556f69028d8e6ea7330895a97257",
+    "database": "ddju48ok87l9jp",
+    "host": "ec2-107-21-226-44.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "port": "5432",
+    "dialectOptions": {
+      "ssl": "true"
+    }
+  },
+  "production": {
+    "username": "cjfkramzfgxebw",
+    "password": "a8ab9c448f6d5e2060b2869f931f1eac62f2556f69028d8e6ea7330895a97257",
+    "database": "ddju48ok87l9jp",
+    "host": "ec2-107-21-226-44.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "port": "5432",
+    "dialectOptions": {
+      "ssl": "true"
+    }
+  }
+}

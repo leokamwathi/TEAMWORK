@@ -1,8 +1,8 @@
 
 
-const UserController = require('./controller/userController');
+const {UserController} = require('./controller/userController');
 const {PostController,Op} = require('./controller/postController');
-const CommentController = require('./controller/commentController');
+const {CommentController} = require('./controller/commentController');
 /*
 const viewTestUsers = async () => {
     await UserController.findAll().then((users) => {
@@ -85,8 +85,51 @@ const recreateTestUsers = async () => {
    
 }
 */
+const getRandomTestIDs = (Model = 'user') => {
+        if (Model == 'user') {
+            return UserController.findAll({isTest:true}).then((rows) => {
+                const ids = rows.map((row) => {return row.id})
+                return ids
+            })
+        }
+    if (Model == 'post') {
+        return PostController.findAll({ isTest: true }).then((rows) => {
+            const ids = rows.map((row) => { return row.id })
+            return ids
+        })
+    }
+    if (Model == 'comment') {
+        return CommentController.findAll({ isTest: true }).then((rows) => {
+            const ids = rows.map((row) => { return row.id })
+            return ids
+        })
+    }
+}
+
+getRandomTestIDs('user').then((ids)=>{
+    console.log('USER IDS', ids);
+}).catch((error)=>{
+    console.log('Error', error);
+});
+
+getRandomTestIDs('post').then((ids) => {
+    console.log('POST IDS', ids);
+}).catch((error) => {
+    console.log('Error', error);
+});
+
+
+getRandomTestIDs('comment').then((ids) => {
+    console.log('COMMENT IDS', ids);
+}).catch((error) => {
+    console.log('Error', error);
+});
+
 
 const deleteData = async () => {
+
+    return 
+    /*
     CommentController.findAll().then((comments) => {
         console.log('Comments',JSON.stringify(comments, null, 4));
     }).catch((error) => {

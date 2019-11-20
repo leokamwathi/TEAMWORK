@@ -45,6 +45,15 @@ User.init({
         defaultValue: false,
         allowNull: false,
     },
+    banned: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    isTest: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
 }, {
     sequelize,
     timestamps: true,
