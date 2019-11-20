@@ -128,7 +128,7 @@ getRandomTestIDs('comment').then((ids) => {
 
 const deleteData = async () => {
 
-    return 
+   // return 
     /*
     CommentController.findAll().then((comments) => {
         console.log('Comments',JSON.stringify(comments, null, 4));
@@ -207,7 +207,7 @@ const deleteData = async () => {
 
 */
 
-    if (true){
+   // if (true){
         /*
     const userTableCreated = await UserController.createTable().then(() => {
         console.log('Table Created');
@@ -265,7 +265,7 @@ const deleteData = async () => {
             }
         }
         */
-    }
+    // }
     
 
     // Create Users
@@ -277,7 +277,7 @@ const deleteData = async () => {
     
 }
 
-deleteData()
+// deleteData()
 
 // recreateTestUsers()
 

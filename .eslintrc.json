@@ -22,6 +22,7 @@
   "rules": {
     "no-console": "warn",
     "eqeqeq": "warn",
-    "consistent-return": "warn"
+    "consistent-return": "warn",
+    "no-unused-vars": "warn"
   }
 }
