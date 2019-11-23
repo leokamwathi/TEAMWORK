@@ -3,6 +3,38 @@
 const {UserController} = require('./controller/userController');
 const {PostController,Op} = require('./controller/postController');
 const {CommentController} = require('./controller/commentController');
+
+const testUserIds = [];
+const testPostIds = [];
+const testCommentIds = [];
+
+
+const generateTestIds = async () => {
+
+    const u = await UserController.findAll({ isTest: true }).then((rows) => {
+        rows.forEach(async row => { testUserIds.push(row.id) })
+        return true
+    })
+    const p = await PostController.findAll({ isTest: true }).then((rows) => {
+        rows.forEach(async row => { testPostIds.push(row.id) })
+        return true
+    })
+    const c = await CommentController.findAll({ isTest: true }).then((rows) => {
+        rows.forEach(async row => { testCommentIds.push(row.id) })
+        return true
+    })
+    return u && p && c;
+}
+
+
+const done = generateTestIds().then((d)=>{
+    console.log(d, testUserIds, testPostIds, testCommentIds);
+})
+
+
+
+
+
 /*
 const viewTestUsers = async () => {
     await UserController.findAll().then((users) => {
@@ -71,8 +103,8 @@ const recreateTestUsers = async () => {
     })
 
     viewTestUsers();
-    
-   
+
+
     // await UserController.updateAll().then(() => {
     //     console.log('Users Created');
     //     viewTestUsers();
@@ -82,9 +114,11 @@ const recreateTestUsers = async () => {
     //     return (false)
     // }
     // )
-   
+
 }
 */
+
+/*
 const getRandomTestIDs = (Model = 'user') => {
         if (Model == 'user') {
             return UserController.findAll({isTest:true}).then((rows) => {
@@ -105,6 +139,8 @@ const getRandomTestIDs = (Model = 'user') => {
         })
     }
 }
+
+
 
 getRandomTestIDs('user').then((ids)=>{
     console.log('USER IDS', ids);
@@ -275,7 +311,7 @@ const deleteData = async () => {
   
 
     
-}
+
 
 // deleteData()
 

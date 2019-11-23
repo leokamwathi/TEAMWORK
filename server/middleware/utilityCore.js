@@ -29,11 +29,14 @@ const createResponse = (jsonData = {}, statusCode = 400,msg='Bad Request.') => {
 try {
     // console.log('CREATE RESPONSE JSON:', jsonData);
     const result = {};
-    result.status = statusCodeMessage(statusCode);
+    // result.status = statusCodeMessage(statusCode);
+    // result.status = statusCodeMessage(statusCode);
     if (statusCode >= 200 && statusCode < 300) {
-        result.message = msg;
+        result.status = "Success"
+        result.message = `${statusCodeMessage(statusCode)  } : ${  msg}`;
     } else {
-        result.error = msg
+        result.status = "Error"
+        result.error = `${statusCodeMessage(statusCode)  } : ${  msg}`
     }
 
     if (jsonData && Object.entries(jsonData).length > 0) {

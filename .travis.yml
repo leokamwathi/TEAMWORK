@@ -3,8 +3,6 @@ node_js:
   - '10.16.3'
 script:
   - npm run lint
-  - npm run test:migration:undo
-  - npm run test:migration:do
   - npm run test:seed:do
   - npm run test
 before_script:

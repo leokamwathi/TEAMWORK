@@ -9,7 +9,6 @@ const adminAuth = require('../middleware/adminAuth');
 const authRouter = express.Router();
 
 // Asch calls to heroku are not fun - Many false errors
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
    
 authRouter.post('/create', adminAuth,(req, res, next) => {
     try {
@@ -67,9 +66,13 @@ authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
 
 authRouter.post('/signin', (req, res, next) => {
     // Login user and generate auth-token
+   // console.log(req.body);
+    if (!req.body.email || !req.body.password){
+        return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
+    }
 return UserController.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
-            console.log("User Not Found");
+            // console.log("User Not Found");
             return res.status(401).json(utilityCore.createResponse({}, 401,'Invalid Login details.'));
         }
         if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -85,6 +88,7 @@ return UserController.findOne({ email: req.body.email }).then((user) => {
         }   
     return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
     }).catch((error) => {
+        // console.log(error);
         return res.status(401).json(utilityCore.createResponse(error, 401,'Invalid Request'));
     })
 });

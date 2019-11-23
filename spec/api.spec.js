@@ -28,7 +28,13 @@ const deleteKeys = ['message'];
 const errorKeys = ['error'];
 const userData = {};
 const testDebug = false;
+const testUserIds = [];
+const testPostIds = [];
+const testCommentIds = [];
 
+
+
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 // jasmine.loadConfig({
 //     random: false,
@@ -139,6 +145,7 @@ const createAuthRequest = (endpointUrl, postBody = {}, userType='employee') => {
     return authRequest
 }
 
+/*
 const testStatus = (endpointTest, statusCode, data) => {
     it(`${endpointTest} Status ${statusCode}`, () => {
         expect(data.status).toBe(statusCode);
@@ -155,19 +162,49 @@ const testDataHasKeys = (endpointTest='', testKeys=[], data={}) => {
         });
     });
 }
+*/
 
-const getRandomTestIDs = (Model='user') => {
-            
-            try {
-                if (Model=='user'){
-                    UserController.findAll({isTest:true}).then((rows)=>{
-                        return rows.map(row=>row.id)
-                    })
-                }
-                
-            }catch(error){
-                return []
-            }
+
+const generateRandomTestIds = async (Model='user') => {
+let iD;
+    if (Model == 'user') {
+        if (testUserIds.length==0) {
+          //  console.log(testUserIds.length)
+            iD = await UserController.findAll({ isTest: true }).then((rows) => {
+                rows.forEach(async row => { testUserIds.push(row.id) })
+               console.log(testUserIds);
+                return testUserIds[Math.floor(Math.random() * testUserIds.length)];
+            })
+        } else {
+            iD = testUserIds[Math.floor(Math.random() * testUserIds.length)];
+        }
+    }
+    if (Model == 'post') {
+        if (testPostIds.length == 0) {
+           console.log(testPostIds.length)
+            iD = await PostController.findAll({ isTest: true }).then((rows) => {
+                rows.forEach(async row => { testPostIds.push(row.id) })
+               //  console.log(testPostIds);
+                return testPostIds[Math.floor(Math.random() * testPostIds.length)];
+            })
+        } else {
+            iD = testPostIds[Math.floor(Math.random() * testPostIds.length)];
+        }
+    }
+    if (Model == 'comment') {
+        if (testCommentIds.length() == 0) {
+          //  console.log(testCommentIds.length)
+            iD = await CommentController.findAll({ isTest: true }).then((rows) => {
+                rows.forEach(async row => { testCommentIds.push(row.id) })
+                // console.log(testCommentIds);
+                return testCommentIds[Math.floor(Math.random() * testCommentIds.length)];
+            })
+        } else {
+            iD = testCommentIds[Math.floor(Math.random() * testCommentIds.length)];
+        }
+    }
+// console.log(iD);
+    return iD
 }
 
 const testGetArrayAPI = (endpointTest, endpoint, testKeys, statusCode = 200,userType='employee') => {
@@ -385,6 +422,10 @@ const testDeleteAPI = (endpointTest, endpoint, testKeys, statusCode = 203, userT
     });
 }
 
+
+
+
+
 /**
  *  AUTH TESTS
  */
@@ -421,17 +462,19 @@ testPostAPI(
     'admin'
 );
 
-testPatchAPI(
-    "PATCH /auth/edit/1",
-    "/auth/edit/1",
-    {
-        'id':1,
-        'lastName': new Date(),
-    },
-    successKeys,
-    201,
-    'admin'
-);
+generateRandomTestIds('user').then((userId) => {
+    testPatchAPI(
+        "PATCH /auth/edit/1",
+        "/auth/edit/" + userId,
+        {
+            'id': userId,
+            'lastName': new Date(),
+        },
+        successKeys,
+        201,
+        'admin'
+    );
+})
 
 // ERROR TESTING
 
@@ -524,12 +567,13 @@ testGetArrayAPI(
     'none'
 );
 
+generateRandomTestIds('post').then((postId) => {
 testGetAPI(
-    "GET /articles/1",
-    "/articles/1",
+    "GET /articles/" + postId,
+    "/articles/" + postId,
     postKeys
 );
-
+})
 testPostAPI(
     "POST /articles/",
     "/articles",
@@ -545,11 +589,12 @@ testPostAPI(
     postedKeys
 );
 
+generateRandomTestIds('post').then((postId) => {
 testPatchAPI(
-    "Patch /articles/1",
-    "/articles/1",
+    "Patch /articles/" + postId,
+    "/articles/" + postId,
     {   
-        'id': 1,
+        'id': postId,
         'createdOn': '07-05-2019',
         'title': 'Edited Title',
         'post': 'Edited Post.',
@@ -559,30 +604,37 @@ testPatchAPI(
     },
     successKeys
 );
+})
 
+generateRandomTestIds('post').then((postId) => {
 testPatchAPI(
-    "Patch /articles/1/flag (add flag)",
-    "/articles/1/flag",
+    "Patch /articles/" + postId+"/flag (flag article)",
+    "/articles/" + postId+"/flag",
     {   
         'flag':'true'
     },
     successKeys
 );
+})
 
-testPatchAPI(
-    "Patch /articles/2/flag (remove flag)",
-    "/articles/2/flag",
-    {
-        'flag': 'false'
-    },
-    successKeys
-);
+generateRandomTestIds('post').then((postId) => {
+    testPatchAPI(
+        "Patch /articles/" + postId + "/flag (unflag article)",
+        "/articles/" + postId + "/flag",
+        {
+            'flag': 'false'
+        },
+        successKeys
+    );
+})
 
+generateRandomTestIds('post').then((postId) => {
 testDeleteAPI(
-    "DELETE /articles/1",
-    "/articles/1",
+    "DELETE /articles/" + postId,
+    "/articles/" + postId,
     deleteKeys
 );
+})
 
 // ERRORS TESTING
 
@@ -631,72 +683,96 @@ testPatchAPI(
  *  ARTICLE COMMENTS TEST
  */
 
+generateRandomTestIds('post').then((postId) => {
 testGetArrayAPI(
-    "GET /articles/1/comments",
-    "/articles/1/comments",
+    "GET /articles/" + postId+"/comments",
+    "/articles/" + postId+"/comments",
     commentKeys
 );
-
+});
+generateRandomTestIds('post').then((postId) => {
+    generateRandomTestIds('comment').then((commentId) => {
 testGetAPI(
-    "GET /articles/1/comments/1",
-    "/articles/1/comments/1",
+    "GET /articles/" + postId + "/comments/" + commentId,
+    "/articles/" + postId + "/comments/" + commentId,
     commentKeys
 );
+    })})
 
+generateRandomTestIds('user').then((userId) => {
+generateRandomTestIds('post').then((postId) => {
 testPostAPI(
-    "POST /articles/1/comments",
-    "/articles/1/comments",
+    "POST /articles/" + postId+"/comments",
+    "/articles/" + postId+"/comments",
     {
         'comment': 'Its a new comment.',
-        'authorId': 4,
+        'authorId': userId,
         'flags': 'false',
-        'postId': 1,
+        'postId': postId,
         'isTest': 'true',
     },
     successKeys
 );
+})
+});
 
+
+generateRandomTestIds('post').then((postId) => {
+    generateRandomTestIds('comment').then((commentId) => {
 testPatchAPI(
-    "PATCH /articles/1/comments/4",
-    "/articles/1/comments/4",
+    "PATCH /articles/" + postId + "/comments/" + commentId,
+    "/articles/" + postId + "/comments/" + commentId,
     {
-        'id':4,
+        'id': commentId,
         'comment': 'Its an edited comment.',
         'authorId': 2,
         'flags': 'false',
-        'postId': 3,
+        'postId': postId,
         'isTest': 'true',
     },
     successKeys
 );
+});
+});
 
+generateRandomTestIds('post').then((postId) => {
+    generateRandomTestIds('comment').then((commentId) => {
 testDeleteAPI(
-    "DELETE /articles/1/comments/2",
-    "/articles/1/comments/2",
+    "DELETE /articles/" + postId + "/comments/" + commentId,
+    "/articles/" + postId + "/comments/" + commentId,
     deleteKeys
 );
+});
+});
 
+generateRandomTestIds('post').then((postId) => {
+    generateRandomTestIds('comment').then((commentId) => {
 testPatchAPI(
-    "Patch /articles/1/comments/1/flag (add flag)",
-    "/articles/1/comments/1/flag",
+    "Patch /articles/" + postId + "/comments/" + commentId+"/flag (flag comment)",
+    "/articles/" + postId + "/comments/" + commentId+"/flag",
     {
-        'id':1,
+        'id': commentId,
         'flag': 'true',
         'isTest': 'true',
     },
     successKeys
 );
+    })})
 
-testPatchAPI(
-    "Patch /articles/2/comments/6/flag (remove flag)",
-    "/articles/2/comments/6/flag",
-    {
-        'id': 6,
-        'flag': 'false',
-        'isTest': 'true',
-    },
-    successKeys
-);
+generateRandomTestIds('post').then((postId) => {
+    generateRandomTestIds('comment').then((commentId) => {
+        testPatchAPI(
+            "Patch /articles/" + postId + "/comments/" + commentId + "/flag (unflag comment)",
+            "/articles/" + postId + "/comments/" + commentId + "/flag",
+            {
+                'id': commentId,
+                'flag': 'false',
+                'isTest': 'true',
+            },
+            successKeys
+        );
+    })
+})
 
 // Error testing
 
@@ -742,9 +818,32 @@ testPatchAPI(
 
 
 
+
+
 /**
  *  GIFS TESTS
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /*
 
 
 testPostAPI(
@@ -809,12 +908,12 @@ testPatchAPI(
     successKeys
 );
 
-
+*/
 
 /**
  *  GIFS COMMENTS TEST
  */
-
+/*
 testGetArrayAPI(
     "GET /gifs/1/comments",
     "/gifs/1/comments",
@@ -922,7 +1021,7 @@ testPatchAPI(
     404
 );
 
-
+*/
 
 
 
