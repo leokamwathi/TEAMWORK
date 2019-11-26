@@ -13,10 +13,10 @@ commentsRouter.get('/', auth, (req, res, next) => {
         const data = {}
         data.commentId = comment.id
         data.comment = comment.comment
-        data.createdOn = post.createdAt
-        data.authourId = commment.authourId
-        data.postId = coomment.postId
-        data.flag = post.flaged
+            data.createdOn = comment.createdAt
+            data.authourId = comment.authourId
+            data.postId = comment.postId
+            data.flag = comment.flaged
 
         datas.push(data)
         });
@@ -36,10 +36,10 @@ commentsRouter.get('/:commentId', auth, (req, res, next) => {
             const data = {}
             data.commentId = comment.id
             data.comment = comment.comment
-            data.createdOn = post.createdAt
-            data.authourId = commment.authourId
-            data.postId = coomment.postId
-            data.flag = post.flaged
+            data.createdOn = comment.createdAt
+            data.authourId = comment.authourId
+            data.postId = comment.postId
+            data.flag = comment.flaged
             res.status(200).json(utilityCore.createResponse(data, 200,'Successfully retrieved comment.'));
             next();
         }
@@ -55,18 +55,18 @@ commentsRouter.get('/:commentId', auth, (req, res, next) => {
 
 commentsRouter.post('/', auth, (req, res, next) => {
     // Create new comment
-    const comment = req.body;
+    const newComment = req.body;
     // comment['postId'] = req.params.postId;
     // console.log("COMMENT",comment);
-    CommentController.create(comment).then((comment) => {
+    CommentController.create(newComment).then((comment) => {
         if (comment) {
             const data = {}
             data.commentId = comment.id
             data.comment = comment.comment
-            data.createdOn = post.createdAt
-            data.authourId = commment.authourId
-            data.postId = coomment.postId
-            data.flag = post.flaged
+            data.createdOn = comment.createdAt
+            data.authourId = comment.authourId
+            data.postId = comment.postId
+            data.flag = comment.flaged
             res.status(201).json(utilityCore.createResponse(comment,201,'Successfully posted comment'));
             
         } else {
@@ -90,10 +90,10 @@ commentsRouter.patch('/:commentId', auth, (req, res, next) => {
             const data = {}
             data.commentId = comment.id
             data.comment = comment.comment
-            data.createdOn = post.createdAt
-            data.authourId = commment.authourId
-            data.postId = coomment.postId
-            data.flag = post.flaged
+            data.createdOn = comment.createdAt
+            data.authourId = comment.authourId
+            data.postId = comment.postId
+            data.flag = comment.flaged
             res.status(201).json(utilityCore.createResponse({},201,'Successfully edited comment.'));
         }
         next();
@@ -132,10 +132,10 @@ commentsRouter.patch('/:commentId/flag', auth, (req, res, next) => {
             const data = {}
             data.commentId = comment.id
             data.comment = comment.comment
-            data.createdOn = post.createdAt
-            data.authourId = commment.authourId
-            data.postId = coomment.postId
-            data.flag = post.flaged
+            data.createdOn = comment.createdAt
+            data.authourId = comment.authourId
+            data.postId = comment.postId
+            data.flag = comment.flaged
             res.status(201).json(utilityCore.createResponse({},201,'Successfully flaged comment.'));
             next();
         }
