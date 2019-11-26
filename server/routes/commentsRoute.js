@@ -7,7 +7,20 @@ const commentsRouter = express.Router({mergeParams: true});
 
 commentsRouter.get('/', auth, (req, res, next) => {
     CommentController.findAll().then((comments) => {
-        res.status(200).json(utilityCore.createResponse(comments, 200,'Successfully retrieved the comments.'));
+
+        const datas = []
+        comments.forEach(comment => {
+        const data = {}
+        data.commentId = comment.id
+        data.comment = comment.comment
+        data.createdOn = post.createdAt
+        data.authourId = commment.authourId
+        data.postId = coomment.postId
+        data.flag = post.flaged
+
+        datas.push(data)
+        });
+        res.status(200).json(utilityCore.createResponse(datas, 200,'Successfully retrieved the comments.'));
         next();
     }).catch((error) => {
         res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
@@ -16,11 +29,18 @@ commentsRouter.get('/', auth, (req, res, next) => {
 
 
 commentsRouter.get('/:commentId', auth, (req, res, next) => {
-    CommentController.findOne({ id: req.params.commentId }).then((results) => {
-        if (!results) {
+    CommentController.findOne({ id: req.params.commentId }).then((comment) => {
+        if (!comment) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find the comment.'));
         } else {
-            res.status(200).json(utilityCore.createResponse(results, 200,'Successfully retrieved comment.'));
+            const data = {}
+            data.commentId = comment.id
+            data.comment = comment.comment
+            data.createdOn = post.createdAt
+            data.authourId = commment.authourId
+            data.postId = coomment.postId
+            data.flag = post.flaged
+            res.status(200).json(utilityCore.createResponse(data, 200,'Successfully retrieved comment.'));
             next();
         }
     }).catch((error) => {
@@ -38,9 +58,16 @@ commentsRouter.post('/', auth, (req, res, next) => {
     const comment = req.body;
     // comment['postId'] = req.params.postId;
     // console.log("COMMENT",comment);
-    CommentController.create(comment).then((isPosted) => {
-        if (isPosted) {
-            res.status(201).json(utilityCore.createResponse({},201,'Successfully posted comment'));
+    CommentController.create(comment).then((comment) => {
+        if (comment) {
+            const data = {}
+            data.commentId = comment.id
+            data.comment = comment.comment
+            data.createdOn = post.createdAt
+            data.authourId = commment.authourId
+            data.postId = coomment.postId
+            data.flag = post.flaged
+            res.status(201).json(utilityCore.createResponse(comment,201,'Successfully posted comment'));
             
         } else {
             return res.status(403).json(utilityCore.createResponse({},403,'Failed to post the Comment.'));
@@ -56,10 +83,17 @@ commentsRouter.post('/', auth, (req, res, next) => {
 // Edit comment
 commentsRouter.patch('/:commentId', auth, (req, res, next) => {
     // Edit article with a given ID
-    CommentController.update(req.body).then((editedComment) => {
-        if (!editedComment) {
+    CommentController.update(req.body).then((comment) => {
+        if (!comment) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find the comment.'));
         } else {
+            const data = {}
+            data.commentId = comment.id
+            data.comment = comment.comment
+            data.createdOn = post.createdAt
+            data.authourId = commment.authourId
+            data.postId = coomment.postId
+            data.flag = post.flaged
             res.status(201).json(utilityCore.createResponse({},201,'Successfully edited comment.'));
         }
         next();
@@ -77,7 +111,9 @@ commentsRouter.delete('/:commentId', auth, (req, res, next) => {
         if (!isDeleted) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to delete comment.'));
         } else {
-            res.status(203).json(utilityCore.createResponse({},203,'Successfully deleted comment.'));
+            const data = {}
+            data.message = 'Comment successfully deleted'
+            res.status(203).json(utilityCore.createResponse(data,203,'Successfully deleted comment.'));
             next();
         }
     })
@@ -89,10 +125,17 @@ commentsRouter.delete('/:commentId', auth, (req, res, next) => {
 
 commentsRouter.patch('/:commentId/flag', auth, (req, res, next) => {
     // Flag a comment with a given ID
-    CommentController.update({ id: req.params.commentId, flaged: req.params.flag }).then((editedComment) => {
-        if (!editedComment) {
+    CommentController.update({ id: req.params.commentId, flaged: req.params.flag }).then((comment) => {
+        if (!comment) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to flag comment'));
         } else {
+            const data = {}
+            data.commentId = comment.id
+            data.comment = comment.comment
+            data.createdOn = post.createdAt
+            data.authourId = commment.authourId
+            data.postId = coomment.postId
+            data.flag = post.flaged
             res.status(201).json(utilityCore.createResponse({},201,'Successfully flaged comment.'));
             next();
         }

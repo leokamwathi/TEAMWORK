@@ -10,7 +10,7 @@ const apiRoute = express.Router();
  */
 
 apiRoute.use('/v1/auth', authRoute);
-
+//  (req, res, next) => {console.log(req.body);next();},
 
 /**
  *  Feed stream route

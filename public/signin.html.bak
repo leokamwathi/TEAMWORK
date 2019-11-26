@@ -1,0 +1,10 @@
+<html>
+
+
+<form action="/api/v1/signin/"  method="post">
+    <input type="text" class="form-control" placeholder="Email" name="email" id="email">
+	<input type="text" class="form-control" placeholder="Password" name="password" id="password">
+    <input type="submit" value="login" class="btn btn-default">            
+</form>
+
+</html>

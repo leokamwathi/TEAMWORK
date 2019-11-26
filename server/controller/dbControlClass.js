@@ -25,11 +25,12 @@ createSycn(row){
 
     findAll(row={}){
         return new Promise((resolve, reject) => {
-            // Find all rows
+            // Find all rows row={}   {where: {..row }}
+         //   \
             return this.Table.findAll({
-                where: row}
-            )
-                .then(rows => {
+                where:row
+            }
+            ).then(rows => {
                     // console.log("FIND ALL ROWS", JSON.stringify(rows, null, 4));
                     return resolve(JSON.parse(JSON.stringify(rows, null, 4)))
                 })

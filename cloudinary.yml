@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: leokamwathi
+  api_key: '214736252583967'
+  api_secret: G-WysntD9OnML2ASiqzLdso_3KM
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: leokamwathi
+  api_key: '214736252583967'
+  api_secret: G-WysntD9OnML2ASiqzLdso_3KM
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: leokamwathi
+  api_key: '214736252583967'
+  api_secret: G-WysntD9OnML2ASiqzLdso_3KM
+  enhance_image_tag: true
+  static_file_support: false
