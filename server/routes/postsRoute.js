@@ -30,7 +30,7 @@ postRouter.get('/',(req, res, next) => {
                 }
                 datas.push(data)
             })
-        console.log("DATAS", datas, posts);
+        // console.log("DATAS", datas, posts);
         res.status(200).json(utilityCore.createResponse(datas, 200,'Successfully retrieved posts.'));
             return next();
         // }else{

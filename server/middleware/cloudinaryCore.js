@@ -49,7 +49,7 @@ cloudinary.config({
 
 
 Router.post('/', (req, res, next) => {
-    console.log("UPLOAD FILE: ", req.body);
+    // console.log("UPLOAD FILE: ", req.body);
     if (req.body.isGif && req.body.isGif=='true'){
         if (!req.files) {
             res.status(403).send("No file Selected");
@@ -81,11 +81,11 @@ Router.post('/', (req, res, next) => {
             // })
 
             cloudinary.uploader.upload(datauri.content).then((result)=>{
-                console.log(result);
+                // console.log(result);
                 req.body.post = result.url
                 next();
             }).catch((error)=>{
-                console.log(error);
+                // console.log(error);
                 res.status(403).send("Cloudinary Error");
                 next(error);
             })

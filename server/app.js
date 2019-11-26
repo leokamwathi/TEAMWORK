@@ -32,13 +32,13 @@ app.use(bodyParser.json());
 // app.post('/api/', upload.any());
 
 app.use('/', upload.any(), (req, res, next) => {
-    console.log(req.files, req.body);
+    // console.log(req.files, req.body);
     // res.status(200).send("test");
     next();
 });
 
 app.use('/upload', (req, res, next) => {
-    console.log(req.files, req.body);
+    // console.log(req.files, req.body);
     res.status(200).send("test");
     next();
 })

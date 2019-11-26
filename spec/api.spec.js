@@ -80,7 +80,7 @@ switch (code) {
 
  const debuglog = (msg)=>{
      if (testDebug){
-         console.log('\nTESTING ',msg)
+         // console.log('\nTESTING ',msg)
      }
  }
 
@@ -130,7 +130,7 @@ const setupAuthUser = (userType='employee') =>{
             userData.token = '';        
     }
     
-    console.log(userData.token)
+    // console.log(userData.token)
 }
 
 const createAuthRequest = (endpointUrl, postBody = {}, userType='employee') => {
@@ -180,7 +180,7 @@ let iD;
           //  console.log(testUserIds.length)
             iD = await UserController.findAll({ isTest: true }).then((rows) => {
                 rows.forEach(async row => { testUserIds.push(row.id) })
-               console.log(testUserIds);
+               // console.log(testUserIds);
                 return testUserIds[Math.floor(Math.random() * testUserIds.length)];
             })
         } else {
@@ -189,7 +189,7 @@ let iD;
     }
     if (Model == 'post') {
         if (testPostIds.length == 0) {
-           console.log(testPostIds.length)
+           // console.log(testPostIds.length)
             iD = await PostController.findAll({ isTest: true }).then((rows) => {
                 rows.forEach(async row => { testPostIds.push(row.id) })
                //  console.log(testPostIds);
@@ -329,7 +329,7 @@ const testPostAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 20
             Request.post(createAuthRequest(apiUrl, postData, userType), (error, response, body) => {
                 data.status = response.statusCode;
                 data.body = body;
-                console.log(`TESTING ${endpointTest}...`, apiUrl, data.body);
+                // console.log(`TESTING ${endpointTest}...`, apiUrl, data.body);
                 done();
             });
         });
