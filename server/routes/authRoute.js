@@ -64,7 +64,7 @@ authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
        return res.status(403).json(utilityCore.createResponse(error,403,'Invalid Request'));
     }
 });
-
+// https://teamwork-leo.herokuapp.com/api/v1/auth/signin
 authRouter.post('/signin', (req, res, next) => {
     // Login user and generate auth-token
     // console.log('login',req.body);

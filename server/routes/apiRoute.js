@@ -17,6 +17,7 @@ apiRoute.use('/v1/auth', authRoute);
  */
 
 apiRoute.use('/v1/feed', postsRoute);
+apiRoute.use('/v1/feeds', postsRoute);
 
 /**
  *  Articles Endpoints

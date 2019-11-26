@@ -19,7 +19,7 @@ afterEach((done) => {
 */
 //['id', 'title', 'post', 'isGif', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
 
-const apiEndpointUrl = 'http://localhost:3000/api/v1';
+const apiEndpointUrl = 'https://teamwork-leo.herokuapp.com/api/v1'; // http://localhost:3000/api/v1';
 const gifKeys = ['gifId', 'message', 'createdOn', 'title', 'flag', 'imageUrl']
 const articleKeys = ['articleId', 'message', 'createdOn', 'title', 'flag', 'post']
 const feedKeys = ['createdOn', 'flag']
