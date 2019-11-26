@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('comments', [
-      /*
+      
       {
         'postId': 1,
         'comment': 'This is a comment post 1.',
@@ -57,7 +57,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }, 
-      */
+      
       {
         'postId': 1,
         'comment': 'This is a comment post 1 Test.',

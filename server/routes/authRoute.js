@@ -11,6 +11,7 @@ const authRouter = express.Router();
 // Asch calls to heroku are not fun - Many false errors
    
 authRouter.post('/create', adminAuth,(req, res, next) => {
+    // console.log("CREATE USER!!!",req.body)
     try {
         const user = req.body;
         bcrypt.hash(user.password, 10).then(
@@ -66,7 +67,7 @@ authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
 
 authRouter.post('/signin', (req, res, next) => {
     // Login user and generate auth-token
-   // console.log(req.body);
+    // console.log('login',req.body);
     if (!req.body.email || !req.body.password){
         return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
     }
@@ -88,7 +89,7 @@ return UserController.findOne({ email: req.body.email }).then((user) => {
         }   
     return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
     }).catch((error) => {
-        // console.log(error);
+        // console.log('ERROR',error);
         return res.status(401).json(utilityCore.createResponse(error, 401,'Invalid Request'));
     })
 });

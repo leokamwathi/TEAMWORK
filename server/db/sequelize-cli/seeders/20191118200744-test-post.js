@@ -3,7 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('posts', [
       
-      /*
+      
       {
         'title': 'Happy Day',
         'post': 'Today will be a fantastic day.',
@@ -42,7 +42,7 @@ module.exports = {
         updatedAt: new Date()
         
       }, 
-      */
+      
       {
         'title': 'Happy Day test',
         'post': 'Today will be a fantastic day.',

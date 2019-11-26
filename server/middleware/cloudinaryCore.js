@@ -5,7 +5,6 @@ const path = require('path');
 const Datauri = require('datauri')
 
 
-
 const Router = express.Router();
 
 cloudinary.config({

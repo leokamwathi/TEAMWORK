@@ -2,14 +2,17 @@ const jwt = require('jsonwebtoken');
 const utilityCore = require('./utilityCore');
 const { UserController, Op } = require('../controller/userController');
 
+
 module.exports = (req, res, next) => {
     try {
         if (req.headers.authorization) {
+            // console.log('AUTH', req.headers.authorization.split(' ')[1])
+            // console.log("CHECK ADMIN USER ", userId, req.headers.authorization.split(' ')[2]);
+           // console.log("USER ID", req.headers.authorization.split(' ')[2]);
             const token = req.headers.authorization.split(' ')[1];
             const decodedToken = jwt.verify(token, 'RANDOM_TEAMWORK_SECRET');
             const { userId } = decodedToken;
-            // console.log("CHECK ADMIN USER ", userId, req.headers.authorization.split(' ')[2]);
-            // console.log("USER ID", userId, req.headers.authorization.split(' ')[2]);
+            // console.log("TOKEN USER ID", userId);
             if (userId != req.headers.authorization.split(' ')[2]) {
                 // console.log("INVALID USER ID");
                 return res.status(401).json(utilityCore.createResponse({}, 401, 'Only an admin can create users.'));

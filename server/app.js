@@ -19,7 +19,7 @@ app.use(
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         
-        req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTU3NDM0NzM1NywiZXhwIjoxNTc0NDMzNzU3fQ.A3uEdaA2ZGh8mW4er9_tM3TqkqDW-UVbjk9PmTbZKJY 8'
+        // req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTU3NDM0NzM1NywiZXhwIjoxNTc0NDMzNzU3fQ.A3uEdaA2ZGh8mW4er9_tM3TqkqDW-UVbjk9PmTbZKJY 8'
 
         // contentType = req.headers
         // console.log(req.headers['content-type']);

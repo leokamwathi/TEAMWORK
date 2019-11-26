@@ -15,11 +15,15 @@ beforeEach((done) => {
 afterEach((done) => {
     server.close(done);
 });
+
 */
+//['id', 'title', 'post', 'isGif', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
 
 const apiEndpointUrl = 'http://localhost:3000/api/v1';
-const postKeys = ['id', 'title', 'post', 'isGif', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
-const commentKeys = ['id', 'comment', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
+const gifKeys = ['gifId', 'message', 'createdOn', 'title', 'flag', 'imageUrl']
+const articleKeys = ['articleId', 'message', 'createdOn', 'title', 'flag', 'post']
+const feedKeys = ['createdOn', 'flag']
+const commentKeys = ['commentId', 'comment', 'authorId', 'flaged', 'createdOn'];
 // const userKeys = ['id', 'firstName', 'lastName', 'email', 'password', 'gender', 'jobRole', 'department', 'address', 'isAdmin'];
 const successKeys = ['message'];
 const signinKeys = ['userId', 'token'];
@@ -28,13 +32,13 @@ const deleteKeys = ['message'];
 const errorKeys = ['error'];
 const userData = {};
 const testDebug = false;
-const testUserIds = [];
-const testPostIds = [];
-const testCommentIds = [];
+const testUserIds = [4,5,6];
+const testPostIds = [5,6,7,8];
+const testCommentIds = [7,8,9,10,11,12];
 
 
 
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 // jasmine.loadConfig({
 //     random: false,
@@ -89,40 +93,44 @@ const getJWSToken = (userId) =>
     const token = jwt.sign(
         { userId },
         'RANDOM_TEAMWORK_SECRET',
-        { expiresIn: '24h' });
-        userData.userId = userId;
-        userData.token = token;
+        { expiresIn: '240h' });
+        if(token){
+            userData.userId = userId;
+            userData.token = token;
+        }
 }
 
 
 const setupAuthUser = (userType='employee') =>{
     userData.userId = null;
     userData.token = null;
-    if (userType === 'employee'){
+    if (userType == 'employee'){
         getJWSToken(2)
         if(!userData.token){
             userData.userId = 2;
-            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTU3MzkxNzcwOCwiZXhwIjoxNTc0MDA0MTA4fQ.F8r6EhShY4Ai30GpQ4Xtg_Kqsf0i-PWkYDow9I5PY50';
+            userData.token = 'qqqqqeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTU3MzkxNzcwOCwiZXhwIjoxNTc0MDA0MTA4fQ.F8r6EhShY4Ai30GpQ4Xtg_Kqsf0i-PWkYDow9I5PY50';
         }
     }
 
-    if (userType === 'admin') {
+    if (userType == 'admin') {
         getJWSToken(1)
         if (!userData.token) {
             userData.userId = 1;
-            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
+            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU3NDM0NzM1NywiZXhwIjoxNTc0NDMzNzU3fQ.KFo7MRW9gPKhwfW6MrSowM5rgDqF__FF5p1Mrty-XYs';
         }
     }
 
-    if (userType === 'fake') {
+    if (userType == 'fake') {
             userData.userId = 1000;
-            userData.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
+            userData.token = 'qqqeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsImlhdCI6MTU3MzkxNzUxNiwiZXhwIjoxNTc0MDAzOTE2fQ.HDykzM6u6YHpVewDa3wirHywu6m4pNf_obNCNDFZoY8';
     }
 
-    if (userType === 'none') {
+    if (userType == 'none') {
             userData.userId = 0;
             userData.token = '';        
     }
+    
+    console.log(userData.token)
 }
 
 const createAuthRequest = (endpointUrl, postBody = {}, userType='employee') => {
@@ -192,7 +200,7 @@ let iD;
         }
     }
     if (Model == 'comment') {
-        if (testCommentIds.length() == 0) {
+        if (testCommentIds.length == 0) {
           //  console.log(testCommentIds.length)
             iD = await CommentController.findAll({ isTest: true }).then((rows) => {
                 rows.forEach(async row => { testCommentIds.push(row.id) })
@@ -321,7 +329,7 @@ const testPostAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 20
             Request.post(createAuthRequest(apiUrl, postData, userType), (error, response, body) => {
                 data.status = response.statusCode;
                 data.body = body;
-                // console.log(`TESTING ${endpointTest}...`, apiUrl, data.body);
+                console.log(`TESTING ${endpointTest}...`, apiUrl, data.body);
                 done();
             });
         });
@@ -345,7 +353,7 @@ const testPostAPI = (endpointTest, endpoint, postData, testKeys, statusCode = 20
             });
         }else{
             it(`${endpointTest} Test if response has Keys.`, () => {
-                const responseData = data.body;
+                const responseData = data.body.data || data.body;
                 testKeys.forEach((key) => {
                     expect(Object.keys(responseData)).toContain(key);
                 });
@@ -464,7 +472,7 @@ testPostAPI(
 
 generateRandomTestIds('user').then((userId) => {
     testPatchAPI(
-        "PATCH /auth/edit/1",
+        "PATCH /auth/edit/" + userId,
         "/auth/edit/" + userId,
         {
             'id': userId,
@@ -556,13 +564,13 @@ testPatchAPI(
 testGetArrayAPI(
     "GET /feed",
     "/feed",
-    postKeys
+    feedKeys
 );
 
 testGetArrayAPI(
     "GET /feed (None logged is users can view feed)",
     "/feed",
-    postKeys,
+    feedKeys,
     200,
     'none'
 );
@@ -571,9 +579,11 @@ generateRandomTestIds('post').then((postId) => {
 testGetAPI(
     "GET /articles/" + postId,
     "/articles/" + postId,
-    postKeys
+    articleKeys
 );
 })
+
+
 testPostAPI(
     "POST /articles/",
     "/articles",
@@ -583,10 +593,10 @@ testPostAPI(
         'post': 'It started like any other day.',
         'isGif': 'false',
         'authorId': 4,
-        'flags': false,
+        'flaged': false,
         'isTest': 'true',
     },
-    postedKeys
+    articleKeys
 );
 
 generateRandomTestIds('post').then((postId) => {
@@ -613,7 +623,7 @@ testPatchAPI(
     {   
         'flag':'true'
     },
-    successKeys
+    articleKeys
 );
 })
 
@@ -624,7 +634,7 @@ generateRandomTestIds('post').then((postId) => {
         {
             'flag': 'false'
         },
-        successKeys
+        articleKeys
     );
 })
 
@@ -690,6 +700,8 @@ testGetArrayAPI(
     commentKeys
 );
 });
+
+
 generateRandomTestIds('post').then((postId) => {
     generateRandomTestIds('comment').then((commentId) => {
 testGetAPI(
@@ -773,7 +785,7 @@ generateRandomTestIds('post').then((postId) => {
         );
     })
 })
-
+/*
 // Error testing
 
 
@@ -816,7 +828,7 @@ testPatchAPI(
     404
 );
 
-
+*/
 
 
 
