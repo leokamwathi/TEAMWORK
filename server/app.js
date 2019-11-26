@@ -22,7 +22,7 @@ app.use(
         // req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTU3NDM0NzM1NywiZXhwIjoxNTc0NDMzNzU3fQ.A3uEdaA2ZGh8mW4er9_tM3TqkqDW-UVbjk9PmTbZKJY 8'
 
         // contentType = req.headers
-        // console.log(req.headers['content-type']);
+        console.log("REQUEST PAYLOAD URL:",req.url," BODY: ",req.body);
         next();
     });
 
