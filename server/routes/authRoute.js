@@ -13,7 +13,11 @@ const authRouter = express.Router();
 
 authRouter.post('/create-user', adminAuth, (req, res, next) => {
     // console.log("CREATE USER!!!",req.body)
+
     try {
+        if(!req.body){
+            return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
+        }
         const user = req.body;
         bcrypt.hash(user.password, 10).then(
             (hash) => {
@@ -98,7 +102,7 @@ authRouter.post('/signin', (req, res, next) => {
     if (!req.body.email || !req.body.password){
         return res.status(401).json(utilityCore.createResponse({}, 401, 'Invalid Login details.'));
     }
-return UserController.findOne({ email: req.body.email }).then((user) => {
+    return UserController.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
             // console.log("User Not Found");
             return res.status(401).json(utilityCore.createResponse({}, 401,'Invalid Login details.'));
