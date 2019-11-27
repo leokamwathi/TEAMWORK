@@ -44,7 +44,7 @@ try {
         result.data = jsonData;
     }
 
-    // console.log('CREATE RESPONSE:', result);
+    console.log('CREATE RESPONSE:', result);
     return result;
 } catch (error) {
     // console.log("CREATE RESPONSE ERROR:",error)'
