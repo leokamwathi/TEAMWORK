@@ -43,35 +43,32 @@ authRouter.post('/create-user', adminAuth, (req, res, next) => {
 
 });
 
-authRouter.get('/create-user', adminAuth, (req, res, next) => {
-    return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
-});  
-authRouter.post('/create', adminAuth,(req, res, next) => {
-    // console.log("CREATE USER!!!",req.body)
-    try {
-        const user = req.body;
-        bcrypt.hash(user.password, 10).then(
-        (hash) => {
-                user.password = hash;
-        }
-    );
-    return UserController.create(user).then((isPosted) => {
-        if (isPosted) {
-            res.status(201).json(utilityCore.createResponse({},201,'Successfully created user account'));
-            return next();
-        }
-        return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
-    }
-    ).catch((error) => {
-        return res.status(403).json(utilityCore.createResponse(error,403,'Failed to create user'));
-    })
+// authRouter.post('/create', adminAuth,(req, res, next) => {
+//     // console.log("CREATE USER!!!",req.body)
+//     try {
+//         const user = req.body;
+//         bcrypt.hash(user.password, 10).then(
+//         (hash) => {
+//                 user.password = hash;
+//         }
+//     );
+//     return UserController.create(user).then((isPosted) => {
+//         if (isPosted) {
+//             res.status(201).json(utilityCore.createResponse({},201,'Successfully created user account'));
+//             return next();
+//         }
+//         return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
+//     }
+//     ).catch((error) => {
+//         return res.status(403).json(utilityCore.createResponse(error,403,'Failed to create user'));
+//     })
         
-    } catch (error) {
-        // console.log(">>CREATE ERROR!", error);
-        return res.status(401).json(utilityCore.createResponse(error, 401, 'Invalid Request'));
-    }
+//     } catch (error) {
+//         // console.log(">>CREATE ERROR!", error);
+//         return res.status(401).json(utilityCore.createResponse(error, 401, 'Invalid Request'));
+//     }
     
-});
+// });
 
 
 authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
@@ -100,7 +97,7 @@ authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
        return res.status(403).json(utilityCore.createResponse(error,403,'Invalid Request'));
     }
 });
-// https://teamwork-leo.herokuapp.com/api/v1/auth/signin
+// #26 As an Admin, I want to be able to sign in, So that I can create employees account and view, post and delete articles,gifs and comments on the website
 authRouter.post('/signin', (req, res, next) => {
     // Login user and generate auth-token
     // console.log('login',req.body);
