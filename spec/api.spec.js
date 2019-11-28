@@ -19,7 +19,7 @@ afterEach((done) => {
 */
 // ['id', 'title', 'post', 'isGif', 'authorId', 'flaged', 'banned', 'createdAt', 'updatedAt'];
 
-const apiEndpointUrl = 'http://localhost:3000/api/v1';  // 'https://teamwork-leo.herokuapp.com/api/v1'; // http://localhost:3000/api/v1';
+const apiEndpointUrl = 'http://localhost:3337/api/v1';  // 'https://teamwork-leo.herokuapp.com/api/v1'; // http://localhost:3000/api/v1';
 const gifKeys = ['gifId', 'message', 'createdOn', 'title', 'flag', 'imageUrl']
 const articleKeys = ['articleId', 'message', 'createdOn', 'title', 'flag', 'post']
 const feedKeys = ['createdOn', 'flag']
@@ -451,8 +451,8 @@ testPostAPI(
 );
 
 testPostAPI(
-    "POST /auth/create (Admin can create user)", 
-    "/auth/create", 
+    "POST /auth/create-user (Admin can create user)", 
+    "/auth/create-user", 
     {
         'firstName' : 'Miles',
         'lastName' : 'Morales',
@@ -499,8 +499,8 @@ testPostAPI(
 );
 
 testPostAPI(
-    "POST /auth/create (Non Admin cannot create user).",
-    "/auth/create",
+    "POST /auth/create-user (Non Admin cannot create user).",
+    "/auth/create-user",
     {
         'firstName': 'Ben',
         'lastName': 'Parker',
