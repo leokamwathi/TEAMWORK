@@ -7,17 +7,15 @@ const commentsRouter = express.Router({mergeParams: true});
 
 commentsRouter.get('/', auth, (req, res, next) => {
     CommentController.findAll().then((comments) => {
-
         const datas = []
         comments.forEach(comment => {
-        const data = {}
-        data.commentId = comment.id
-        data.comment = comment.comment
+            const data = {}
+            data.commentId = comment.id
+            data.comment = comment.comment
             data.createdOn = comment.createdAt
             data.authourId = comment.authourId
             data.postId = comment.postId
             data.flag = comment.flaged
-
         datas.push(data)
         });
         res.status(200).json(utilityCore.createResponse(datas, 200,'Successfully retrieved the comments.'));
@@ -46,12 +44,8 @@ commentsRouter.get('/:commentId', auth, (req, res, next) => {
     }).catch((error) => {
         res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
     });
-
     // console.log('Successfuly retrieved article', data[0].posts[req.params.postId]);
-   
-
 });
-
 
 commentsRouter.post('/', auth, (req, res, next) => {
     // Create new comment

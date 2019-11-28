@@ -9,8 +9,9 @@ const adminAuth = require('../middleware/adminAuth');
 const authRouter = express.Router();
 
 // Asch calls to heroku are not fun - Many false errors
-// create - user
+// create - user /api/v1/auth/create-user
 
+// Fix #15 As an Admin, I want to be able to create an employee user account, So that employees can sign in the website.
 authRouter.post('/create-user', adminAuth, (req, res, next) => {
     // console.log("CREATE USER!!!",req.body)
 
@@ -41,6 +42,10 @@ authRouter.post('/create-user', adminAuth, (req, res, next) => {
     }
 
 });
+
+authRouter.get('/create-user', adminAuth, (req, res, next) => {
+    return res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to create user'));
+});  
 authRouter.post('/create', adminAuth,(req, res, next) => {
     // console.log("CREATE USER!!!",req.body)
     try {
