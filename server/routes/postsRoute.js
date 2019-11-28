@@ -7,7 +7,7 @@ const cloudinaryCore = require('../middleware/cloudinaryCore');
 
 const postRouter = express.Router();
 
-
+// Fix #32 As an Employee, I want to be able to view a feed of all articles and gifs starting with the most recent, So that I can get updates on new articles and gifs on the website
 postRouter.get('/',(req, res, next) => {
     // Retrive all the latest articles and gifs
     return PostController.findAll().then((posts)=>{
