@@ -119,6 +119,7 @@ commentsRouter.delete('/:commentId', auth, (req, res, next) => {
 
 });
 
+// Fix #25 As an Employee, I want to be able to flag inappropriate comments, So that the admin can delete them from the website
 commentsRouter.patch('/:commentId/flag', auth, (req, res, next) => {
     // Flag a comment with a given ID
     CommentController.update({ id: req.params.commentId, flaged: req.params.flag }).then((comment) => {
