@@ -98,6 +98,7 @@ authRouter.patch('/edit/:userId', adminAuth, (req, res, next) => {
     }
 });
 // #26 As an Admin, I want to be able to sign in, So that I can create employees account and view, post and delete articles,gifs and comments on the website
+// #27 As an Employee, I want to be able to sign in, So that I can view, post and delete articles,gifs and comments on the website
 authRouter.post('/signin', (req, res, next) => {
     // Login user and generate auth-token
     // console.log('login',req.body);
