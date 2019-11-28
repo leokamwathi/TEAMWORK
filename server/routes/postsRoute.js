@@ -40,7 +40,7 @@ postRouter.get('/',(req, res, next) => {
         return res.status(403).json(utilityCore.createResponse(error, 403,'Invalid request'));
     });
 });
-// cloudinaryCore
+// Fix #21 As an Employee, I want to be able to post gifs, So that other employees can view them on the website
 postRouter.post('/', auth, cloudinaryCore,(req, res, next) => {
 // console.log("....",req.body);
     PostController.create(req.body).then((post) => {
