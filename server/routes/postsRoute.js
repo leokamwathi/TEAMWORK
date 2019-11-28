@@ -41,6 +41,7 @@ postRouter.get('/',(req, res, next) => {
     });
 });
 // Fix #21 As an Employee, I want to be able to post gifs, So that other employees can view them on the website
+// Fix #20 As an Employee, I want to be able to write new articles and post them, So that other employees can view them on the website
 postRouter.post('/', auth, cloudinaryCore,(req, res, next) => {
 // console.log("....",req.body);
     PostController.create(req.body).then((post) => {
