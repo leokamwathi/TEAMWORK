@@ -76,6 +76,7 @@ postRouter.post('/', auth, cloudinaryCore,(req, res, next) => {
 });
 
 // Fix #33 As an Employee, I want to be able retrieve a specific article, So that I can view it on the website
+// Fix #34 As an Employee, I want to be able retrieve a specific gif, So that I can view it on the website
 postRouter.get('/:postId', auth, (req, res, next) => {
     // Retrive article with a given ID
     PostController.findOne({ id: req.params.postId }).then((post)=>{
