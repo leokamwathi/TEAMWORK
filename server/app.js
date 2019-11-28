@@ -15,9 +15,20 @@ const app = express();
 
 app.use(
     (req, res, next) => {
+
+        /**
+         * 
+         app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+         * 
+         */
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        // res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+        // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         
         // req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTU3NDM0NzM1NywiZXhwIjoxNTc0NDMzNzU3fQ.A3uEdaA2ZGh8mW4er9_tM3TqkqDW-UVbjk9PmTbZKJY 8'
 
@@ -25,15 +36,21 @@ app.use(
         next();
     });
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+// app.use(bodyParser.json(),(req, res, next) => {
+//     // console.log(req.files, req.body);
+//     // res.status(200).send("test");
+//     console.log("REQUEST PAYLOAD URL:", req.url, " BODY: ", req.body);
+//     next();
+// });
 
 // app.post('/api/', upload.any());
-
+ 
 app.use('/', upload.any(), (req, res, next) => {
     // console.log(req.files, req.body);
     // res.status(200).send("test");
-    console.log("REQUEST PAYLOAD URL:", req.url, " BODY: ", req.body);
+    console.log("REQUEST PAYLOAD URL:", req.url, " BODY: ", req.body," METHOD:" ,req.method);
     next();
 });
 
@@ -128,7 +145,9 @@ app.get("/", (req, res) => {
 
 
 
-app.use('/api/',apiRoutes);
+app.use('/api/',apiRoutes, (req, res) => {
+    res.end();
+});
 // upload.single('myFile'),
 
 
