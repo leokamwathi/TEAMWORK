@@ -48,6 +48,7 @@ commentsRouter.get('/:commentId', auth, (req, res, next) => {
 });
 
 // Fix #24 As an Employee, I want to be able to comment on other employees articles, So that other employees can view my comment on the website
+// Fix #31 As an Employee, I want to be able to comment on other employees gifs, So that other employees can view my comment on the website
 commentsRouter.post('/', auth, (req, res, next) => {
     // Create new comment
     const newComment = req.body;
