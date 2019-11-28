@@ -110,7 +110,7 @@ postRouter.get('/:postId', auth, (req, res, next) => {
     // console.log('Successfuly retrieved article', data[0].posts[req.params.postId]);
    
 });
-
+// Fix #28 As an Employee, I want to be able to edit my articles, So that other employees can view the edited post on the website
 postRouter.patch('/:postId', auth, (req, res, next) => {
     // Edit article with a given ID
     PostController.update(req.body).then((post)=>{
