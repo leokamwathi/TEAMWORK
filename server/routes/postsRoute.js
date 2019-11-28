@@ -178,6 +178,7 @@ postRouter.patch('/:postId/flag', auth, (req, res, next) => {
         });
 });
 
+// Fix #29 As an Employee, I want to be able to delete my articles, So that other employees cannot view them on the website
 postRouter.delete('/:postId', auth, (req, res, next) => {
     // Delete article with a given ID
     PostController.update({id:req.params.postId}).then((isDeleted) => {
