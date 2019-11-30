@@ -6,7 +6,8 @@ const auth = require('../middleware/auth');
 const commentsRouter = express.Router({mergeParams: true});
 
 commentsRouter.get('/', auth, (req, res, next) => {
-    CommentController.findAll().then((comments) => {
+    const {postId} = req.params;
+    CommentController.findAll({postId}).then((comments) => {
         const datas = []
         comments.forEach(comment => {
             const data = {}

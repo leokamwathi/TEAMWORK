@@ -22,13 +22,19 @@ createSycn(row){
         })
     }
     */
-
-    findAll(row={}){
+/**
+ * row - enter what field you want to search by
+ * order - how do you want to sort the returened data
+ * @param {id:5} row 
+ * @param [['createdAt', 'DESC']] order 
+ */
+    findAll(row={},order=[['createdAt', 'DESC']]){
         return new Promise((resolve, reject) => {
-            // Find all rows row={}   {where: {..row }}
+            // Find all rows row={}   {where: {..row }} 
          //   \
             return this.Table.findAll({
-                where:row
+                where:row,
+                order
             }
             ).then(rows => {
                     // console.log("FIND ALL ROWS", JSON.stringify(rows, null, 4));

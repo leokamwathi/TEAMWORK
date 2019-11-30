@@ -43,7 +43,7 @@ postRouter.get('/',(req, res, next) => {
 // Fix #21 As an Employee, I want to be able to post gifs, So that other employees can view them on the website
 // Fix #20 As an Employee, I want to be able to write new articles and post them, So that other employees can view them on the website
 postRouter.post('/', auth, cloudinaryCore,(req, res, next) => {
-// console.log("....",req.body);
+    console.log("ARTICLE POSTING",req.body);
     PostController.create(req.body).then((post) => {
         if (post) {
                 const data = {};
@@ -83,17 +83,16 @@ postRouter.get('/:postId', auth, (req, res, next) => {
         if (!post) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
         } else if(post){
+            console.log('POST',JSON.stringify(post));
                 const data = {};
-                 if(req.body.isGif == 'true'){
+                 if(post.isGif == 'true' || post.isGif == true){
                     data.gifId = post.id
-                    data.message = 'GIF image was successfully posted';
                     data.createdOn = post.createdAt
                     data.title = post.title
                     data.imageUrl = post.post
                      data.flag = post.flaged
                  }else{
                      data.articleId = post.id
-                     data.message = 'Article was successfully posted';
                      data.createdOn = post.createdAt
                      data.title = post.title
                      data.post = post.post
