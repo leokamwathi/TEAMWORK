@@ -11,24 +11,11 @@ const postRouter = express.Router();
 postRouter.get('/',(req, res, next) => {
     // Retrive all the latest articles and gifs
     return PostController.findAll().then((posts)=>{
+        // console.log('FindALLwithIncludes',posts);
         // if(posts && posts.length>0){
-            const datas= [];
+        const datas= [];
         posts.forEach((post)=>{
-                const data = {};
-            if (post.isGif == true) {
-                    data.gifId = post.id
-                    data.createdOn = post.createdAt
-                    data.title = post.title
-                    data.imageUrl = post.post
-                    data.flag = post.flaged
-                } else {
-                    data.articleId = post.id
-                    data.createdOn = post.createdAt
-                    data.title = post.title
-                    data.post = post.post
-                    data.flag = post.flaged
-                }
-                datas.push(data)
+                datas.push(utilityCore.formatPostResponseData(post,'retrived'))
             })
         // console.log("DATAS", datas, posts);
         res.status(200).json(utilityCore.createResponse(datas, 200,'Successfully retrieved posts.'));
@@ -43,25 +30,10 @@ postRouter.get('/',(req, res, next) => {
 // Fix #21 As an Employee, I want to be able to post gifs, So that other employees can view them on the website
 // Fix #20 As an Employee, I want to be able to write new articles and post them, So that other employees can view them on the website
 postRouter.post('/', auth, cloudinaryCore,(req, res, next) => {
-    console.log("ARTICLE POSTING",req.body);
+    // console.log("ARTICLE POSTING",req.body);
     PostController.create(req.body).then((post) => {
         if (post) {
-                const data = {};
-                 if(req.body.isGif == 'true'){
-                    data.gifId = post.id
-                    data.message = 'GIF image was successfully posted';
-                    data.createdOn = post.createdAt
-                    data.title = post.title
-                    data.imageUrl = post.post
-                    data.flag = post.flaged
-                 }else{
-                     data.articleId = post.id
-                     data.message = 'Article was successfully posted';
-                     data.createdOn = post.createdAt
-                     data.title = post.title
-                     data.post = post.post
-                     data.flag = post.flaged
-                 }
+                const data = utilityCore.formatPostResponseData(post,'posted')
             res.status(201).json(utilityCore.createResponse(data, 201, data.message));
             }else if(req.body.isGif == 'true') {
                 res.status(403).json(utilityCore.createResponse({}, 403, 'Failed to post gif.'));
@@ -83,21 +55,8 @@ postRouter.get('/:postId', auth, (req, res, next) => {
         if (!post) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
         } else if(post){
-            console.log('POST',JSON.stringify(post));
-                const data = {};
-                 if(post.isGif == 'true' || post.isGif == true){
-                    data.gifId = post.id
-                    data.createdOn = post.createdAt
-                    data.title = post.title
-                    data.imageUrl = post.post
-                     data.flag = post.flaged
-                 }else{
-                     data.articleId = post.id
-                     data.createdOn = post.createdAt
-                     data.title = post.title
-                     data.post = post.post
-                     data.flag = post.flaged
-                 }
+            // console.log('POST',JSON.stringify(post));
+                const data = utilityCore.formatPostResponseData(post,'retrived')
                 res.status(200).json(utilityCore.createResponse(data, 200,'Successfully retrieved post.'));
         }else{          
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
@@ -117,22 +76,7 @@ postRouter.patch('/:postId', auth, (req, res, next) => {
         if (!post) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
         } else if(post){
-                const data = {};
-                 if(req.body.isGif == 'true'){
-                    data.gifId = post.id
-                    data.message = 'GIF image was successfully posted';
-                    data.createdOn = post.createdAt
-                    data.title = post.title
-                    data.imageUrl = post.post
-                     data.flag = post.flaged
-                 }else{
-                     data.articleId = post.id
-                     data.message = 'Article was successfully posted';
-                     data.createdOn = post.createdAt
-                     data.title = post.title
-                     data.post = post.post
-                     data.flag = post.flaged
-                 }
+                const data = utilityCore.formatPostResponseData(post,'edited')
                 res.status(200).json(utilityCore.createResponse(data, 200,'Successfully edited post.'));
         }else{          
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
@@ -151,24 +95,7 @@ postRouter.patch('/:postId/flag', auth, (req, res, next) => {
         if (!post) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
         } else if (post) {
-            const data = {};
-            if (req.body.isGif == 'true') {
-                data.gifId = post.id
-                data.message = 'GIF image was successfully posted';
-                data.createdOn = post.createdAt
-                data.title = post.title
-                data.flag = post.flaged
-                data.imageUrl = post.post
-                data.flag = post.flaged
-            } else {
-                data.articleId = post.id
-                data.message = 'Article was successfully posted';
-                data.createdOn = post.createdAt
-                data.flag = post.flaged
-                data.title = post.title
-                data.post = post.post
-                data.flag = post.flaged
-            }
+            const data = utilityCore.formatPostResponseData(post,'flaged')
             res.status(200).json(utilityCore.createResponse(data, 200, 'Successfully flaged post.'));
         } else {
             res.status(404).json(utilityCore.createResponse({}, 404, 'Failed to find post.'));

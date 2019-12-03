@@ -52,4 +52,55 @@ try {
 }
 }
 
-module.exports = { createResponse};
+const formatPostResponseData = (post,msg='retrived') => {
+    const data = {};
+        if (post.isGif == true) {
+            data.message = `GIF image was successfully ${msg}`;
+            data.gifId = post.id
+            data.createdOn = post.createdAt
+            data.title = post.title
+            data.imageUrl = post.post
+            data.flag = post.flaged
+            data.authorId = post.authorId
+            if(post.user){
+                data.authorName = `${post.user.firstName} ${post.user.lastName}`
+            }else{
+                data.authorName = 'John Doe'
+            }
+        } else {
+            data.message = `Article was successfully ${msg}`;
+            data.articleId = post.id
+            data.createdOn = post.createdAt
+            data.title = post.title
+            data.post = post.post
+            data.flag = post.flaged
+            data.authorId = post.authorId
+            if(post.user){
+                data.authorName = `${post.user.firstName} ${post.user.lastName}`
+            }else{
+                data.authorName = 'John Doe'
+            }
+        }
+        return data
+}
+
+const formatCommnetResponseData = (comment)=>{
+
+    const data = {}
+    if(comment){
+        data.commentId = comment.id
+        data.comment = comment.comment
+        data.createdOn = comment.createdAt
+        data.authorId = comment.authorId
+        data.postId = comment.postId
+        data.flag = comment.flaged
+        if(comment.user){
+            data.authorName = `${comment.user.firstName} ${comment.user.lastName}`
+        }else{
+            data.authorName = 'John Doe'
+        }
+    }
+
+    return data
+}
+module.exports = { createResponse,formatPostResponseData,formatCommnetResponseData};

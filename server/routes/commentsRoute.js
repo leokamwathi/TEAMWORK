@@ -8,16 +8,10 @@ const commentsRouter = express.Router({mergeParams: true});
 commentsRouter.get('/', auth, (req, res, next) => {
     const {postId} = req.params;
     CommentController.findAll({postId}).then((comments) => {
+        console.log('COMMENTS FINDALL',comments);
         const datas = []
         comments.forEach(comment => {
-            const data = {}
-            data.commentId = comment.id
-            data.comment = comment.comment
-            data.createdOn = comment.createdAt
-            data.authourId = comment.authourId
-            data.postId = comment.postId
-            data.flag = comment.flaged
-        datas.push(data)
+        datas.push(utilityCore.formatCommnetResponseData(comment))
         });
         res.status(200).json(utilityCore.createResponse(datas, 200,'Successfully retrieved the comments.'));
         next();
@@ -32,13 +26,7 @@ commentsRouter.get('/:commentId', auth, (req, res, next) => {
         if (!comment) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find the comment.'));
         } else {
-            const data = {}
-            data.commentId = comment.id
-            data.comment = comment.comment
-            data.createdOn = comment.createdAt
-            data.authourId = comment.authourId
-            data.postId = comment.postId
-            data.flag = comment.flaged
+            const data = utilityCore.formatCommnetResponseData(comment)
             res.status(200).json(utilityCore.createResponse(data, 200,'Successfully retrieved comment.'));
             next();
         }
@@ -57,14 +45,8 @@ commentsRouter.post('/', auth, (req, res, next) => {
     // console.log("COMMENT",comment);
     CommentController.create(newComment).then((comment) => {
         if (comment) {
-            const data = {}
-            data.commentId = comment.id
-            data.comment = comment.comment
-            data.createdOn = comment.createdAt
-            data.authourId = comment.authourId
-            data.postId = comment.postId
-            data.flag = comment.flaged
-            res.status(201).json(utilityCore.createResponse(comment,201,'Successfully posted comment'));
+            const data = utilityCore.formatCommnetResponseData(comment)
+            res.status(201).json(utilityCore.createResponse(data,201,'Successfully posted comment'));
             
         } else {
             return res.status(403).json(utilityCore.createResponse({},403,'Failed to post the Comment.'));
@@ -84,13 +66,7 @@ commentsRouter.patch('/:commentId', auth, (req, res, next) => {
         if (!comment) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find the comment.'));
         } else {
-            const data = {}
-            data.commentId = comment.id
-            data.comment = comment.comment
-            data.createdOn = comment.createdAt
-            data.authourId = comment.authourId
-            data.postId = comment.postId
-            data.flag = comment.flaged
+            const data = utilityCore.formatCommnetResponseData(comment)
             res.status(201).json(utilityCore.createResponse({},201,'Successfully edited comment.'));
         }
         next();
@@ -127,13 +103,7 @@ commentsRouter.patch('/:commentId/flag', auth, (req, res, next) => {
         if (!comment) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to flag comment'));
         } else {
-            const data = {}
-            data.commentId = comment.id
-            data.comment = comment.comment
-            data.createdOn = comment.createdAt
-            data.authourId = comment.authourId
-            data.postId = comment.postId
-            data.flag = comment.flaged
+            const data = utilityCore.formatCommnetResponseData(comment)
             res.status(201).json(utilityCore.createResponse({},201,'Successfully flaged comment.'));
             next();
         }

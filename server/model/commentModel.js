@@ -3,6 +3,8 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../db/connection');
+const Post = require('./postModel');
+const User = require('./userModel');
 
 const {Model} = Sequelize;
 
@@ -46,73 +48,6 @@ Comment.init({
     modelName: 'comment'
     // options
 });
-
-// Comment.belongsTo(Post, { foreignKey: 'PostId' });
+Comment.belongsTo(Post, { foreignKey: 'postId' });
+Comment.belongsTo(User, { foreignKey: 'authorId' });
 module.exports = Comment;
-
-/*
-
-
-const comments = [
-{
-    'comments': [
-        {
-            'id': 1,
-            'postID': 1,
-            'createdOn': '07-05-2019',
-            'comment': 'This is a comment post 1.',
-            'isGif': 'false',
-            'authorId': 2,
-            'flaged': 'false',
-        },
-        {
-            'id': 2,
-            'postID': 1,
-            'createdOn': '07-05-2019',
-            'comment': 'This is a second comment post 1.',
-            'isGif': 'false',
-            'authorId': 2,
-            'flaged': 'false',
-        },
-        {
-            'id': 2,
-            'postID': 2,
-            'createdOn': '07-05-2019',
-            'comment': 'This is a second comment post 2.',
-            'isGif': 'false',
-            'authorId': 1,
-            ''flaged': 'false',
-        },
-        {
-            'id': 2,
-            'postID': 2,
-            'createdOn': '07-05-2019',
-            'comment': 'This is a second comment post 2.',
-            'isGif': 'false',
-            'authorId': 3,
-            'flaged': 'false',
-        },
-        {
-            'id': 2,
-            'postID': 3,
-            'createdOn': '07-05-2019',
-            'comment': 'This is a second comment post 3.',
-            'isGif': 'false',
-            'authorId': 3,
-           'flaged': 'false',
-        },
-        {
-            'id': 2,
-            'postID': 3,
-            'createdOn': '07-05-2019',
-            'comment': 'This is a second comment post 3.',
-            'isGif': 'false',
-            'authorId': 1,
-            'flaged': 'false',
-        }
-    ]
-}];
-
-module.exports = comments;*
-
-*/

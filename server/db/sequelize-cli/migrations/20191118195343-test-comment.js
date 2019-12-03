@@ -15,12 +15,18 @@ module.exports = {
       },
       authorId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        references: {
+            model: "Users",
+            key: "id"
+          }
       },
       postId: {
         type: Sequelize.INTEGER,
-        allowNull: false
-      },
+        references: {
+            model: "Posts",
+            key: "id"
+          }
+        },
       flaged: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
@@ -49,3 +55,14 @@ module.exports = {
   }
 };
 
+
+/*
+authorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      postId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+*/

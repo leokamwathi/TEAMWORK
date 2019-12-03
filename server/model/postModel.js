@@ -53,7 +53,7 @@ Post.init({
     // options
 });
 
-// Post.belongsTo(User, { foreignKey: 'authorId' });
+Post.belongsTo(User, { foreignKey: 'authorId' });
 
 module.exports = Post;
 

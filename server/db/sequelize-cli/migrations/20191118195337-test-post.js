@@ -21,7 +21,10 @@ module.exports = {
       },
       authorId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        references: {
+            model: "Users",
+            key: "id"
+          }
       },
       flaged: {
         type: Sequelize.BOOLEAN,
@@ -52,3 +55,20 @@ module.exports = {
     return queryInterface.dropTable('posts');
   }
 };
+
+
+/*
+ authorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+*/
+
+
+// 'CustomerId',
+//       {
+//         type: Sequelize.UUID,
+//         references: {
+//           model: 'Customers', // name of Target model
+//           key: 'id', // key in Target model that we're referencing
+//         },

@@ -25,16 +25,20 @@ createSycn(row){
 /**
  * row - enter what field you want to search by
  * order - how do you want to sort the returened data
- * @param {id:5} row 
- * @param [['createdAt', 'DESC']] order 
+ * @param row {id:5} 
+ * @param order [['createdAt', 'DESC']]
+ * @param include: [{model: users},{model: posts}]
  */
-    findAll(row={},order=[['createdAt', 'DESC']]){
+
+ // {},[['createdAt', 'DESC']],[{model: Users, attributes: ['email']}] //model: Users, attributes: ['email']
+    findAll(row={},order=[['createdAt', 'DESC']],include=[{all:true}]){
         return new Promise((resolve, reject) => {
             // Find all rows row={}   {where: {..row }} 
-         //   \
+         //
             return this.Table.findAll({
                 where:row,
-                order
+                order,
+                include
             }
             ).then(rows => {
                     // console.log("FIND ALL ROWS", JSON.stringify(rows, null, 4));
