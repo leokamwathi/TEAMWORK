@@ -91,7 +91,8 @@ postRouter.patch('/:postId', auth, (req, res, next) => {
 // Fix #22 As an Employee, I want to be able to flag inappropriate articles and gifs, So that the admin can delete them from the website
 postRouter.patch('/:postId/flag', auth, (req, res, next) => {
     // Flag article with a given ID
-    PostController.update({ id: req.params.postId, flaged: req.params.flag}).then((post) => {
+    console.log(`Flag Article: flaged: ${req.body.flag}`);
+    PostController.update({ id: req.params.postId, flaged: req.body.flag}).then((post) => {
         if (!post) {
             res.status(404).json(utilityCore.createResponse({},404,'Failed to find post.'));
         } else if (post) {
@@ -102,6 +103,7 @@ postRouter.patch('/:postId/flag', auth, (req, res, next) => {
         }
         next();
     }).catch((error) => {
+        console.log(error);
             res.status(403).json(utilityCore.createResponse(error, 403,'Invalid Request'));
         });
 });

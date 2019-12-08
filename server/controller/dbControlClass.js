@@ -107,13 +107,17 @@ createSycn(row){
                 // Change data for user with id
               // console.log("ROW TO UPDATE:", row,row.id);
                return this.Table.update(row, {
+                   returning: true,
                     where:
                     {
                         id: row.id
                     }
-                }).then((updatedRowsCount) => {
-                    // console.log("UPDATED RECORDS:", updatedRowsCount);
-                    return resolve(...updatedRowsCount)
+                }).then(([updatedRowsCount,[updatedRow]]) => {
+                    console.log("UPDATED RECORDS:", updatedRowsCount, " ROW>>> ", JSON.parse(JSON.stringify(updatedRow, null, 4)));
+                    if (updatedRowsCount>0){
+                        return resolve(updatedRow)
+                    }
+                    return reject(new Error('A record with given ID was not found. Nothing was updated.'))
                 }).catch((error) => {
                   // console.log("UPDATE ERROR:", error);
                     return reject(error)
@@ -126,12 +130,13 @@ createSycn(row){
 
   
 
-    findOne(row) {
+    findOne(row, include = [{ all: true }]) {
         return new Promise((resolve, reject) => {
             // Change data for user with id
             // try {
                 return this.Table.findOne({
-                    where: row
+                    where: row,
+                    include
                 }).then((rows) => {
                     return resolve(rows)
                 }).catch((error) => {
