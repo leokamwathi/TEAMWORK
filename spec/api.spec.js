@@ -552,7 +552,7 @@ testPatchAPI(
         'isTest': 'true',
     },
     errorKeys,
-    404,
+    403,
     'admin'
 );
 
@@ -652,7 +652,7 @@ testDeleteAPI(
     "DELETE /articles/1000 (Not found error)",
     "/articles/1000",
     errorKeys,
-    404
+    403
 );
 
 testPatchAPI(
@@ -668,7 +668,7 @@ testPatchAPI(
         'isTest': 'true',
     },
     errorKeys,
-    404
+    403
 );
 
 testGetAPI(
@@ -685,7 +685,7 @@ testPatchAPI(
         'flag': 'true'
     },
     errorKeys,
-    404
+    403
 );
 
 
