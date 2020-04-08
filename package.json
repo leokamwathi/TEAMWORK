@@ -60,7 +60,7 @@
     "jasmine-console-reporter": "^3.1.0",
     "jasmine-node": "^3.0.0",
     "jasmine-supertest": "^1.0.0",
-    "nodemon": "^1.19.4",
+    "nodemon": "^2.0.3",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
